@@ -1,0 +1,43 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Custom style for BottomNavigationView -->
+
+    <!-- Custom text appearance styles -->
+    <style name="TextAppearance.AppTheme.Headline" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="android:fontFamily">@font/lexend_black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="TextAppearance.AppTheme.Headline2" parent="TextAppearance.MaterialComponents.Headline1" tools:keep="@style/TextAppearance.DicodingStoryApp.Headline2">
+        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="android:fontFamily">@font/lexend_black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextAppearance.AppTheme.Body" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="android:fontFamily">@font/lexend_black</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextAppearance.AppTheme.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:textColor">@color/md_theme_onPrimaryContainer</item>
+        <item name="android:fontFamily">@font/lexend_extrabold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="Widget.AppTheme.Button" parent="Widget.AppCompat.Button">
+        <!-- Button background and text color remain the same in both themes -->
+        <item name="android:background">@drawable/bg_button_rounded</item>
+        <item name="android:radius">32dp</item>
+        <item name="backgroundTint">@color/md_theme_primaryContainer</item>
+        <item name="android:textColor">@color/md_theme_onPrimaryContainer</item>
+        <item name="android:fontFamily">@font/lexend_extrabold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+</resources>
