@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "961131987124",
+    "project_id": "aira-4d303",
+    "storage_bucket": "aira-4d303.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:961131987124:android:c8724072dd68ce282997e1",
+        "android_client_info": {
+          "package_name": "com.kuroakevizago.aira"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "961131987124-9intvt6n58k44aer5mof2rgub48p516g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kuroakevizago.aira",
+            "certificate_hash": "f6b33934f8da658cce77736a863ccf0b4fcea5cc"
+          }
+        },
+        {
+          "client_id": "961131987124-tdpjuh2uo14reoreptr6fmr6h53qd6qh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJXNEwH83XpKsSD71LB5424Ob5jNgQ3qE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "961131987124-tdpjuh2uo14reoreptr6fmr6h53qd6qh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
