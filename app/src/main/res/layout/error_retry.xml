@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:visibility="visible"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:keep="@layout/error_retry">
+    <TextView
+        android:id="@+id/error_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/something_went_wrong"
+        style="@style/TextAppearance.AppTheme.Headline2"/>
+    <TextView
+        android:id="@+id/errorDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Please check your connection"
+        style="@style/TextAppearance.AppTheme.Body"/>
+    <Button
+        android:id="@+id/btnRetryConnection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/try_again"
+        android:layout_marginTop="10dp"
+        style="@style/Widget.AppTheme.Button"/>
+</LinearLayout>
