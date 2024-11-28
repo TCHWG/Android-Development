@@ -68,6 +68,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
     implementation(libs.glide)
+    implementation(libs.circleimageview)
+
 
     implementation(libs.androidx.camera.camera2)
     implementation(libs.camera.lifecycle)
