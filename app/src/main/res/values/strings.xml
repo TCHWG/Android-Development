@@ -36,4 +36,11 @@
     <string name="please_enter_your_password">Please enter your password</string>
     <string name="or">or</string>
     <string name="your_web_client_id">961131987124-tdpjuh2uo14reoreptr6fmr6h53qd6qh.apps.googleusercontent.com</string>
+    <string name="no_musics_obtained">No musics obtained</string>
+    <string name="search_for_a_music">Search for a music</string>
+    <string name="previously_played">Previously played</string>
+    <string name="featured_musics">Featured Musics</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_bookmark">Bookmark</string>
+    <string name="title_musics">Musics</string>
 </resources>

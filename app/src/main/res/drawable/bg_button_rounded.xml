@@ -3,4 +3,5 @@
     <solid android:color="@color/md_theme_primaryContainer" />
     <corners android:radius="32dp" />
     <padding android:left="4dp" android:right="4dp" />
+    <stroke android:width="3dp" android:color="@android:color/black" />
 </shape>

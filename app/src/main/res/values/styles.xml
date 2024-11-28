@@ -13,6 +13,13 @@
         <item name="android:textColor">?attr/colorOnBackground</item>
         <item name="android:fontFamily">@font/lexend_black</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="TextAppearance.AppTheme.Headline3" parent="TextAppearance.MaterialComponents.Headline1" tools:keep="@style/TextAppearance.DicodingStoryApp.Headline2">
+        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="android:fontFamily">@font/lexend_black</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textSize">18sp</item>
     </style>
 
@@ -36,8 +43,19 @@
         <item name="backgroundTint">@color/md_theme_primaryContainer</item>
         <item name="android:textColor">@color/md_theme_onPrimaryContainer</item>
         <item name="android:fontFamily">@font/lexend_extrabold</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textAlignment">center</item>
         <item name="android:textAllCaps">true</item>
+    </style>
+
+    <!-- Custom style for BottomNavigationView -->
+    <style name="Widget.AppTheme.BottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView.Colored" tools:keep="@style/Widget_Dicoding_BottomNavigation">
+        <item name="backgroundTint">@color/md_theme_surface</item>
+        <item name="itemIconTint">@color/md_theme_primary</item>
+        <item name="itemTextColor">@color/md_theme_primary</item>
+        <item name="itemRippleColor">@color/md_theme_onSurface</item>
+        <item name="itemIconSize">24dp</item>
+        <item name="labelVisibilityMode">labeled</item>
     </style>
 
 </resources>
