@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:keep="@layout/activity_detail_shimmer"
+    android:orientation="vertical"> <!-- Shimmer background -->
+
+    <!-- Shimmer effect for ImageView -->
+    <View
+        android:id="@+id/shimmerImgEventIcon"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        android:background="@drawable/bg_shimmer" />
+
+    <!-- Shimmer effect for event title -->
+    <View
+        android:id="@+id/shimmerTvEventTitle"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/bg_shimmer" />
+
+    <!-- Shimmer effect for description -->
+    <View
+        android:id="@+id/shimmerTvEventDescription"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/bg_shimmer" />
+
+
+</LinearLayout>
