@@ -36,11 +36,45 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
+    <style name="Widget.AppTheme.BaseButton" parent="Widget.AppCompat.Button">
+        <!-- Button background and text color remain the same in both themes -->
+        <item name="android:radius">32dp</item>
+        <item name="android:textColor">@color/md_theme_onPrimaryContainer</item>
+        <item name="android:fontFamily">@font/lexend_extrabold</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
     <style name="Widget.AppTheme.Button" parent="Widget.AppCompat.Button">
         <!-- Button background and text color remain the same in both themes -->
         <item name="android:background">@drawable/bg_button_rounded</item>
         <item name="android:radius">32dp</item>
         <item name="backgroundTint">@color/md_theme_primaryContainer</item>
+        <item name="android:textColor">@color/md_theme_onPrimaryContainer</item>
+        <item name="android:fontFamily">@font/lexend_extrabold</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="Widget.AppTheme.SuccessButton" parent="Widget.AppCompat.Button">
+        <!-- Button background and text color remain the same in both themes -->
+        <item name="android:background">@drawable/bg_button_success</item>
+        <item name="android:radius">32dp</item>
+        <item name="backgroundTint">@color/md_theme_success</item>
+        <item name="android:textColor">@color/md_theme_onPrimaryContainer</item>
+        <item name="android:fontFamily">@font/lexend_extrabold</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="Widget.AppTheme.ErrorButton" parent="Widget.AppCompat.Button">
+        <!-- Button background and text color remain the same in both themes -->
+        <item name="android:background">@drawable/bg_rounded</item>
+        <item name="android:radius">32dp</item>
+        <item name="backgroundTint">@color/md_theme_error</item>
         <item name="android:textColor">@color/md_theme_onPrimaryContainer</item>
         <item name="android:fontFamily">@font/lexend_extrabold</item>
         <item name="android:textSize">11sp</item>
