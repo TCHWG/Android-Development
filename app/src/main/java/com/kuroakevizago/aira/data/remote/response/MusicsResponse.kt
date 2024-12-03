@@ -26,6 +26,7 @@ data class MusicsResponse(
 @Parcelize
 data class MusicItem(
 
+
 	@field:SerializedName("difficulty")
 	val difficulty: String? = null,
 
@@ -35,6 +36,18 @@ data class MusicItem(
 	@field:SerializedName("author")
 	val author: String? = null,
 
+	@field:SerializedName("note_path")
+	val notePath: String? = null,
+
 	@field:SerializedName("name")
-	val name: String? = null
+	val name: String? = null,
+
+	@field:SerializedName("midi_path")
+	val midiPath: String? = null,
+
+	@field:SerializedName("id")
+	val id: Int? = null,
+
+	@field:SerializedName("music_path")
+	val musicPath: String? = null
 ) : Parcelable

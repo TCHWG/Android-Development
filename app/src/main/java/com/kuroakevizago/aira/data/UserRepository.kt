@@ -1,21 +1,34 @@
 package com.kuroakevizago.aira.data
 
+import android.util.Log
+import androidx.lifecycle.LiveData
 import com.google.gson.Gson
+import com.kuroakevizago.aira.data.local.database.AiraRoomDatabase
+import com.kuroakevizago.aira.data.local.entity.MusicEntity
 import com.kuroakevizago.dicodingstoryapp.data.pref.UserModel
 import com.kuroakevizago.dicodingstoryapp.data.pref.UserPreference
 import com.kuroakevizago.aira.data.remote.api.ApiService
 import com.kuroakevizago.aira.data.remote.request.LoginRequest
 import com.kuroakevizago.aira.data.remote.request.RegisterRequest
+import com.kuroakevizago.aira.data.remote.request.UpdateUsersRequest
 import com.kuroakevizago.aira.data.remote.response.auth.LoginResponse
 import com.kuroakevizago.aira.data.remote.response.auth.RegisterResponse
 import com.kuroakevizago.aira.data.remote.response.ErrorResponse
+import com.kuroakevizago.aira.data.remote.response.MusicResponse
 import com.kuroakevizago.aira.data.remote.response.MusicsResponse
+import com.kuroakevizago.aira.data.remote.response.user.UserProfileData
+import com.kuroakevizago.aira.data.remote.response.user.UserProfileResponse
 import com.kuroakevizago.aira.data.status.ResultStatus
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.HttpException
+import java.io.File
 
 class UserRepository private constructor(
     private val apiService: ApiService,
+    private val databaseService: AiraRoomDatabase,
     private val userPreference: UserPreference
 ) {
 
@@ -63,8 +76,6 @@ class UserRepository private constructor(
         }
     }
 
-
-    // Function to fetch a list of stories
     suspend fun getMusics(): ResultStatus<MusicsResponse> {
         return try {
             val response = apiService.getMusics()
@@ -78,6 +89,122 @@ class UserRepository private constructor(
         } catch (e: Exception) {
             ResultStatus.Error("Exception occurred: ${e.localizedMessage ?: "Unknown error"}")
         }
+    }
+
+    suspend fun getUserMusics(): ResultStatus<MusicsResponse> {
+        return try {
+            val response = apiService.getUserMusics()
+            if (response.success == true) {
+                ResultStatus.Success(response)
+            } else {
+                ResultStatus.Error("API call failed: ${response.message}")
+            }
+        } catch (e: HttpException) {
+            handleHttpException(e)
+        } catch (e: Exception) {
+            ResultStatus.Error("Exception occurred: ${e.localizedMessage ?: "Unknown error"}")
+        }
+    }
+
+    suspend fun getMusicDetail(musicId: String): ResultStatus<MusicResponse> {
+        return try {
+            val response = apiService.getMusicDetail(musicId)
+            if (response.success == true) {
+                ResultStatus.Success(response)
+            } else {
+                ResultStatus.Error("API call failed: ${response.message}")
+            }
+        } catch (e: HttpException) {
+            handleHttpException(e)
+        } catch (e: Exception) {
+            ResultStatus.Error("Exception occurred: ${e.localizedMessage ?: "Unknown error"}")
+        }
+    }
+
+    suspend fun getUserProfile(): ResultStatus<UserProfileResponse> {
+        return try {
+            val response = apiService.getUserProfile()
+            if (response.success == true) {
+                ResultStatus.Success(response)
+            } else {
+                ResultStatus.Error("API call failed: ${response.message}")
+            }
+        } catch (e: HttpException) {
+            handleHttpException(e)
+        } catch (e: Exception) {
+            ResultStatus.Error("Exception occurred: ${e.localizedMessage ?: "Unknown error"}")
+        }
+    }
+
+    suspend fun updateUserProfilePhoto(photoFile: File): ResultStatus<RegisterResponse> {
+        return try {
+            // Convert the file to RequestBody
+            val requestFile = photoFile.asRequestBody("image/*".toMediaTypeOrNull())
+            val body = MultipartBody.Part.createFormData("photo", photoFile.name, requestFile)
+
+            val response = apiService.updateUserProfilePhoto(body)
+            if (response.success == true) {
+                ResultStatus.Success(response)
+            } else {
+                ResultStatus.Error("API call failed: ${response.message}")
+            }
+        } catch (e: HttpException) {
+            handleHttpException(e)
+        } catch (e: Exception) {
+            ResultStatus.Error("Exception occurred: ${e.localizedMessage ?: "Unknown error"}")
+        }
+    }
+
+    suspend fun updateUserName(name: String): ResultStatus<RegisterResponse> {
+        return try {
+            val response = apiService.updateUserName(UpdateUsersRequest(name))
+            if (response.success == true && response.data != null) {
+                ResultStatus.Success(response)
+            } else {
+                ResultStatus.Error("API call failed: ${response.message}")
+            }
+        } catch (e: HttpException) {
+            handleHttpException(e)
+        } catch (e: Exception) {
+            ResultStatus.Error("Exception occurred: ${e.localizedMessage ?: "Unknown error"}")
+        }
+    }
+
+    suspend fun insertBookmarkedMusic(music: MusicEntity): ResultStatus<String> {
+        return try {
+            databaseService.bookmarkDao().insertMusic(music)
+            ResultStatus.Success("Successfully Insert Data")
+        } catch (e: HttpException) {
+            handleHttpException(e)
+        } catch (e: Exception) {
+            ResultStatus.Error("Something went wrong: ${e.localizedMessage ?: "Unknown error"}")
+        }
+    }
+
+    fun getBookmarkedMusics(userId: String): LiveData<List<MusicEntity>>? {
+        return try {
+            return databaseService.bookmarkDao().getBookmarksForUser(userId)
+        } catch (e: Exception) {
+            Log.e("User Bookmarked Musics", "Exception occurred: ${e.localizedMessage ?: "Unknown error"}")
+            null
+        }
+    }
+
+    suspend fun postMusicPredictionModel(): ResultStatus<UserProfileData> {
+        //TODO
+        return ResultStatus.Error("")
+//        return try {
+//            val response = apiService.getUserProfile()
+//            if (response.success == true && response.data != null) {
+//                ResultStatus.Success(response.data)
+//            } else {
+//                ResultStatus.Error("API call failed: ${response.message}")
+//            }
+//        } catch (e: HttpException) {
+//            handleHttpException(e)
+//        } catch (e: Exception) {
+//            ResultStatus.Error("Exception occurred: ${e.localizedMessage ?: "Unknown error"}")
+//        }
     }
 
     private fun handleHttpException(e: HttpException): ResultStatus.Error{
@@ -95,65 +222,19 @@ class UserRepository private constructor(
         return ResultStatus.Error(errorMessage)
     }
 
-//
-//    // Function to fetch a specific story by ID
-//    suspend fun getStoryById(id: String): ResultStatus<StoryResponse> {
-//        return try {
-//            val response = apiService.getStory(id)
-//            if (response.error != false) {
-//                ResultStatus.Success(response)
-//            } else {
-//                ResultStatus.Error("API call failed: ${response.message}")
-//            }
-//        } catch (e: HttpException) {
-//            val jsonInString = e.response()?.errorBody()?.string()
-//            val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
-//            ResultStatus.Error(errorBody.message ?: "Unknown error")
-//        }catch (e: Exception) {
-//            ResultStatus.Error("Exception occurred: ${e.localizedMessage ?: "Unknown error"}")
-//        }
-//    }
-
-//    // Function to add a story with authentication
-//    suspend fun addStoryWithAuth(
-//        description: String,
-//        photo: File
-//    ): ResultStatus<DefaultResponse> {
-//        val descriptionPart = description.toRequestBody("text/plain".toMediaTypeOrNull())
-//        val photoPart = MultipartBody.Part.createFormData(
-//            name = "photo",
-//            filename = photo.name,
-//            body = photo.asRequestBody("image/*".toMediaTypeOrNull())
-//        )
-//
-//        return try {
-//            val response = apiService.addStory(descriptionPart, photoPart)
-//            if (response.success != false) {
-//                ResultStatus.Success(response)
-//            } else {
-//                ResultStatus.Error("API call failed: ${response.message}")
-//            }
-//        } catch (e: HttpException) {
-//            val jsonInString = e.response()?.errorBody()?.string()
-//            val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
-//            ResultStatus.Error(errorBody.message ?: "Unknown error")
-//        }catch (e: Exception) {
-//            ResultStatus.Error("Exception occurred: ${e.localizedMessage ?: "Unknown error"}")
-//        }
-//    }
-
     companion object {
         @Volatile
         private var instance: UserRepository? = null
         fun getInstance(
             apiService: ApiService,
+            databaseService: AiraRoomDatabase,
             userPreference: UserPreference,
             resetInstance: Boolean = false
         ): UserRepository {
             return if (instance == null || resetInstance) {
                 synchronized(this) {
                     if (instance == null || resetInstance) {
-                        instance = UserRepository(apiService, userPreference)
+                        instance = UserRepository(apiService, databaseService, userPreference)
                     }
                     instance!!
                 }

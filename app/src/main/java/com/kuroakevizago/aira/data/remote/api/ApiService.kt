@@ -5,8 +5,10 @@ import com.kuroakevizago.aira.data.remote.request.RegisterRequest
 import com.kuroakevizago.aira.data.remote.request.UpdateUsersRequest
 import com.kuroakevizago.aira.data.remote.response.MusicsResponse
 import com.kuroakevizago.aira.data.remote.response.DefaultResponse
+import com.kuroakevizago.aira.data.remote.response.MusicResponse
 import com.kuroakevizago.aira.data.remote.response.auth.LoginResponse
 import com.kuroakevizago.aira.data.remote.response.auth.RegisterResponse
+import com.kuroakevizago.aira.data.remote.response.user.UserProfileResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -57,14 +59,25 @@ interface ApiService {
         @Body requestBody: UpdateUsersRequest
     ): RegisterResponse
 
-    @Multipart // Required for sending multipart data
+    @Multipart
     @POST("users/photo")
     suspend fun updateUserProfilePhoto(
         @Part photo: MultipartBody.Part, // Use MultipartBody.Part for file uploads
     ): RegisterResponse
 
+    @GET("users/profile")
+    suspend fun getUserProfile(): UserProfileResponse
+
     @GET("musics")
     suspend fun getMusics(): MusicsResponse
+
+    @GET("user/musics")
+    suspend fun getUserMusics(): MusicsResponse
+
+    @GET("musics/{musicId}")
+    suspend fun getMusicDetail(
+        @Path("musicId") musicId: String
+    ): MusicResponse
 
 }
 
