@@ -6,8 +6,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.kuroakevizago.aira.data.UserRepository
 import com.kuroakevizago.dicodingstoryapp.di.Injection
 import com.kuroakevizago.aira.ui.detail.DetailViewModel
-import com.kuroakevizago.aira.ui.login.LoginViewModel
+import com.kuroakevizago.aira.ui.auth.login.LoginViewModel
 import com.kuroakevizago.aira.ui.main.MainViewModel
+import com.kuroakevizago.aira.ui.music_player.MusicPlayerViewModel
 
 class ViewModelFactory(private val repository: UserRepository) : ViewModelProvider.NewInstanceFactory() {
 
@@ -22,6 +23,9 @@ class ViewModelFactory(private val repository: UserRepository) : ViewModelProvid
             }
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
                 DetailViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(MusicPlayerViewModel::class.java) -> {
+                MusicPlayerViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

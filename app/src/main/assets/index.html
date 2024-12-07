@@ -1,0 +1,46 @@
+<!-- Copyright 2018 Google Inc. All Rights Reserved.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+==============================================================================-->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+  <link rel="stylesheet" href="./style.css">
+  
+  <!-- These imports are needed for the CodeMirror snippets to work -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.28.0/codemirror.min.js"></script>
+  <link rel="stylesheet" href="https://js.tensorflow.org/css/vendor/codemirror.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.28.0/theme/dracula.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.28.0/mode/javascript/javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.28.0/mode/xml/xml.min.js"></script>
+
+  <!-- This imports magenta.js on the page -->
+  <script src="https://cdn.jsdelivr.net/npm/@magenta/music@1.18.1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@magenta/music@^1.0.0/es6/core.js"></script>
+  <script src="visualizer.js" defer></script>
+
+  <title>Visualizer</title>
+</head>
+<body>
+  <!-- <button id="playBtn" disabled>Play</button>
+  <button id="seqBtn" enabled>Init Sequence</button> -->
+  
+  <section>
+    <div class="visualizer-container">
+      <div id="treble-staff"></div>
+      <div id="bass-staff"></div>
+      <div id="timestamps" class="timestamp-row"></div>
+    </div>
+  </section>
+</body>
+</html>
