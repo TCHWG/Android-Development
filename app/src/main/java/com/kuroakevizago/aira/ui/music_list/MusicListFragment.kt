@@ -50,6 +50,10 @@ private val viewModel by viewModels<MainViewModel> {
             showFeaturedMusicsErrorRetry(false)
             viewModel.fetchFeaturedMusics()
         }
+
+        binding.refreshButton.setOnClickListener {
+            viewModel.fetchFeaturedMusics()
+        }
     }
 
     private fun setupDataObserve() {

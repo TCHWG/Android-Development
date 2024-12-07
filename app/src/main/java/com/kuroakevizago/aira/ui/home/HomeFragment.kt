@@ -6,17 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.kuroakevizago.aira.R
 import com.kuroakevizago.aira.adapter.MusicVerticalViewAdapter
 import com.kuroakevizago.aira.data.remote.response.MusicItem
-import com.kuroakevizago.aira.data.remote.response.auth.User
 import com.kuroakevizago.aira.data.status.ResultStatus
 import com.kuroakevizago.aira.databinding.FragmentHomeBinding
 import com.kuroakevizago.aira.ui.ViewModelFactory
@@ -24,13 +27,11 @@ import com.kuroakevizago.aira.ui.main.MainViewModel
 
 class HomeFragment : Fragment() {
 
-    private val viewModel by viewModels<MainViewModel> {
+    private val viewModel by activityViewModels<MainViewModel> {
         ViewModelFactory.getInstance(requireContext())
     }
 
     private lateinit var binding: FragmentHomeBinding
-
-    private var auth: FirebaseAuth = Firebase.auth
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,6 +47,9 @@ class HomeFragment : Fragment() {
 
         if (!viewModel.isPreviouslyPlayedFetched)
             viewModel.fetchPreviouslyPlayedMusics()
+
+        if (!viewModel.isUserDataFetched)
+            viewModel.fetchUserProfile()
 
         setupDataAction()
         setupDataObserve()
@@ -63,6 +67,12 @@ class HomeFragment : Fragment() {
             showFeaturedMusicsErrorRetry(false)
             viewModel.fetchFeaturedMusics()
         }
+
+        binding.refreshButton.setOnClickListener {
+            viewModel.fetchFeaturedMusics()
+            viewModel.fetchPreviouslyPlayedMusics()
+            viewModel.fetchUserProfile()
+        }
     }
 
     private fun setupDataObserve() {
@@ -72,14 +82,29 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupUserData() {
-        val user = User(
-            email = auth.currentUser?.email,
-            name = auth.currentUser?.displayName,
-            photoUrl = auth.currentUser?.photoUrl)
 
-        binding.userNameText.text = user.name
-        Glide.with(requireContext()).load(user.photoUrl)
-            .into(binding.userPhotoImage)
+        viewModel.userData.observe(viewLifecycleOwner) {result->
+            when (result) {
+                is ResultStatus.Error -> {
+
+                }
+                is ResultStatus.Loading -> {
+
+                }
+                is ResultStatus.Success -> {
+                    val resultData = result.data.data
+
+                    if (resultData != null) {
+                        binding.userNameText.text = resultData.name
+
+                        if (resultData.photoUrl != null)
+                            Glide.with(requireContext()).load(resultData.photoUrl)
+                                .into(binding.userPhotoImage)
+                    }
+                }
+            }
+
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -137,6 +162,7 @@ class HomeFragment : Fragment() {
     private fun showFeaturedMusicsErrorRetry(show: Boolean) {
         binding.featuredMusicsRecyclerView.recycleView.visibility = if (show) View.INVISIBLE else View.VISIBLE
         binding.featuredMusicsRecyclerView.errorRetry.root.visibility = if (show) View.VISIBLE else View.GONE
+        binding.featuredMusicsRecyclerView.textNoDataObtain.visibility = View.INVISIBLE
         if (show) {
             binding.featuredMusicsRecyclerView.errorRetry.btnRetryConnection.setOnClickListener {
                 showFeaturedMusicsErrorRetry(false)
@@ -172,7 +198,7 @@ class HomeFragment : Fragment() {
                     checkRecyclerData(
                         adapter.musicList,
                         previouslyPlayedRecyclerView,
-                        binding.featuredMusicsRecyclerView.textNoDataObtain
+                        binding.previouslyPlayedRecyclerView.textNoDataObtain
                     )
                 }
 
@@ -194,6 +220,7 @@ class HomeFragment : Fragment() {
     private fun showPreviouslyPlayedErrorRetry(show: Boolean) {
         binding.previouslyPlayedRecyclerView.recycleView.visibility = if (show) View.INVISIBLE else View.VISIBLE
         binding.previouslyPlayedRecyclerView.errorRetry.root.visibility = if (show) View.VISIBLE else View.GONE
+        binding.previouslyPlayedRecyclerView.textNoDataObtain.visibility = View.INVISIBLE
         if (show) {
             binding.previouslyPlayedRecyclerView.errorRetry.btnRetryConnection.setOnClickListener {
                 showPreviouslyPlayedErrorRetry(false)

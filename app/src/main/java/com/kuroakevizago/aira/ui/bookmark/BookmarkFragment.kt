@@ -1,21 +1,31 @@
 package com.kuroakevizago.aira.ui.bookmark
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.kuroakevizago.aira.databinding.FragmentHomeBinding
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.kuroakevizago.aira.adapter.MusicVerticalViewAdapter
+import com.kuroakevizago.aira.data.remote.response.MusicItem
+import com.kuroakevizago.aira.data.status.ResultStatus
+import com.kuroakevizago.aira.databinding.FragmentBookmarkBinding
 import com.kuroakevizago.aira.ui.ViewModelFactory
+import com.kuroakevizago.aira.ui.main.MainViewModel
 
 class BookmarkFragment : Fragment() {
 
-    private var _binding: FragmentHomeBinding? = null
+    private val viewModel by viewModels<MainViewModel> {
+        ViewModelFactory.getInstance(requireContext())
+    }
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentBookmarkBinding
+
+    private var userId: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,47 +33,99 @@ class BookmarkFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = FragmentBookmarkBinding.inflate(inflater, container, false)
+
+        setupDataAction()
+        setupDataObserve()
 
         return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+
+    private fun setupDataAction() {
+
+        binding.bookmarkRecyclerView.errorRetry.btnRetryConnection.setOnClickListener {
+            showFeaturedMusicsErrorRetry(false)
+            viewModel.fetchFeaturedMusics()
+        }
+
+        binding.refreshButton.setOnClickListener {
+            setupBookmarkedMusics()
+        }
     }
 
-//
-//    @SuppressLint("NotifyDataSetChanged")
-//    private fun setupDataObserve() {
-//
-//        // Initialize the RecyclerView
-//        val adapter = StoriesViewAdapter()
-//        binding.recycleViewStories.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-//        binding.recycleViewStories.adapter = adapter
-//
-//        // Observe the stories data
-//        viewModel.musics.observe(this) { result ->
-//            when (result) {
-//                is ResultStatus.Loading -> {
-//                    showErrorRetry(false)
-//                    adapter.dataResultStatus = ResultStatus.Loading
-//                }
-//
-//                is ResultStatus.Success -> {
-//                    showErrorRetry(false)
-//                    adapter.storyList = result.data.data
-//                    adapter.dataResultStatus = ResultStatus.Success(result.data.data)
-//                }
-//
-//                is ResultStatus.Error -> {
-//                    adapter.dataResultStatus = result
-//                    showErrorRetry(true)
-//                    binding.errorRetry.errorDescription.text = result.error
-//                }
-//            }
-//            binding.recycleViewStories.adapter = adapter
-//            adapter.notifyDataSetChanged()
-//        }
-//    }
+    private fun setupDataObserve() {
+        setupUserSessionData()
+        setupBookmarkedMusics()
+    }
+
+    private fun setupUserSessionData() {
+        viewModel.getSession().observe(viewLifecycleOwner) {user ->
+            userId = user.userId
+        }
+    }
+
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun setupBookmarkedMusics() {
+
+        // Initialize the RecyclerView
+        val adapter = MusicVerticalViewAdapter()
+        val featuredRecyclerView = binding.bookmarkRecyclerView.recycleView
+        featuredRecyclerView.layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.VERTICAL,
+            false)
+        featuredRecyclerView.adapter = adapter
+
+        // Observe the stories data
+        viewModel.getBookmarkedMusics(userId)?.observe(viewLifecycleOwner) {result ->
+            showFeaturedMusicsErrorRetry(false)
+            adapter.musicList = result.map { entity ->
+                MusicItem(
+                    id = id,
+                    name = entity.name,
+                    author = entity.author,
+                    difficulty = entity.difficulty,
+                    musicDescription = entity.musicDescription
+                )
+            }
+            adapter.dataResultStatus = ResultStatus.Loading
+
+            checkRecyclerData(
+                adapter.musicList,
+                featuredRecyclerView,
+                binding.bookmarkRecyclerView.textNoDataObtain
+            )
+
+            adapter.dataResultStatus = ResultStatus.Success(adapter.musicList)
+            featuredRecyclerView.adapter = adapter
+            adapter.notifyDataSetChanged()
+        }
+    }
+
+
+    private fun checkRecyclerData(list: List<MusicItem?>, recyclerView: RecyclerView, errorText: TextView) {
+        if (list.isEmpty()) {
+            recyclerView.visibility = View.INVISIBLE
+            errorText.visibility = View.VISIBLE
+        } else {
+            recyclerView.visibility = View.VISIBLE
+            errorText.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun showFeaturedMusicsErrorRetry(show: Boolean) {
+        binding.bookmarkRecyclerView.recycleView.visibility = if (show) View.INVISIBLE else View.VISIBLE
+        binding.bookmarkRecyclerView.errorRetry.root.visibility = if (show) View.VISIBLE else View.GONE
+        binding.bookmarkRecyclerView.textNoDataObtain.visibility = View.INVISIBLE
+        if (show) {
+            binding.bookmarkRecyclerView.errorRetry.btnRetryConnection.setOnClickListener {
+                showFeaturedMusicsErrorRetry(false)
+                viewModel.fetchFeaturedMusics()
+            }
+        }
+    }
+
+
 }
