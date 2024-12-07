@@ -36,14 +36,14 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="2"
-                    style="@style/TextAppearance.AppTheme.Headline3"
                     android:textColor="@color/md_theme_primary"
                     app:drawableEndCompat="@drawable/ic_music_note_24px"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:drawableTint="@color/md_theme_primary"
                     tools:text="The Music Title"
-                    app:drawableTint="@color/md_theme_primary" />
+                    style="@style/TextAppearance.AppTheme.Headline3" />
 
 <!--                <View-->
 <!--                    android:id="@+id/separator_1"-->
@@ -60,13 +60,13 @@
                     android:layout_marginTop="4dp"
                     android:ellipsize="end"
                     android:maxLines="3"
-                    style="@style/TextAppearance.AppTheme.Body"
                     android:textColor="@color/md_theme_primary"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cardTitleText"
                     app:layout_constraintBottom_toTopOf="@id/cardFooterText"
-                    tools:text="The description of the music card featured here and can be read, and I don't know what else to write around" />
+                    tools:text="The description of the music card featured here and can be read, and I don't know what else to write around"
+                    style="@style/TextAppearance.AppTheme.Body" />
 
                 <TextView
                     android:id="@+id/cardFooterText"

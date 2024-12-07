@@ -36,27 +36,40 @@ class MusicVerticalViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>
             viewBinding.cardFooterText.text = music.author
             viewBinding.cardIndicatorText.text = music.difficulty
             when (music.difficulty?.lowercase()) {
-               "easy" -> {
-                   viewBinding.cardIndicatorText.backgroundTintList =
-                       ContextCompat.getColorStateList(viewBinding.root.context, R.color.md_theme_success)
-               } "warning" -> {
-                   viewBinding.cardIndicatorText.backgroundTintList =
-                       ContextCompat.getColorStateList(viewBinding.root.context, R.color.md_theme_warning)
-               } "hard" -> {
-                   viewBinding.cardIndicatorText.backgroundTintList =
-                       ContextCompat.getColorStateList(viewBinding.root.context, R.color.md_theme_error)
-               }
+                "easy" -> {
+                    viewBinding.cardIndicatorText.backgroundTintList =
+                        ContextCompat.getColorStateList(
+                            viewBinding.root.context,
+                            R.color.md_theme_success
+                        )
+                }
+
+                "warning" -> {
+                    viewBinding.cardIndicatorText.backgroundTintList =
+                        ContextCompat.getColorStateList(
+                            viewBinding.root.context,
+                            R.color.md_theme_warning
+                        )
+                }
+
+                "hard" -> {
+                    viewBinding.cardIndicatorText.backgroundTintList =
+                        ContextCompat.getColorStateList(
+                            viewBinding.root.context,
+                            R.color.md_theme_error
+                        )
+                }
             }
-            //Glide.with(itemView.context).load(story.photoUrl)
-            //    .into(viewBinding.imgCard)
 
             itemView.setOnClickListener {
 
                 val optionsCompat: ActivityOptionsCompat =
                     ActivityOptionsCompat.makeSceneTransitionAnimation(
                         itemView.context as Activity,
-//                        Pair(viewBinding.imgCard, "photo"),
-//                        Pair(viewBinding.tvCardName, "name"),
+                        androidx.core.util.Pair(viewBinding.cardTitleText, "title"),
+                        androidx.core.util.Pair(viewBinding.cardDescriptionText, "description"),
+                        androidx.core.util.Pair(viewBinding.cardFooterText, "author"),
+                        androidx.core.util.Pair(viewBinding.cardIndicatorText, "difficulty"),
                     )
 
                 val intent = Intent(itemView.context, DetailActivity::class.java)
@@ -133,7 +146,7 @@ class MusicVerticalViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     override fun getItemCount(): Int {
-        return if (musicList.isEmpty()) 2 else musicList.size
+        return if (musicList.isEmpty() && dataResultStatus is ResultStatus.Loading) 2 else musicList.size
     }
 
 }

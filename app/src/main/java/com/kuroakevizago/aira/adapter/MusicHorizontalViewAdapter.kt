@@ -37,28 +37,38 @@ class MusicHorizontalViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
             when (music.difficulty?.lowercase()) {
                 "easy" -> {
                     viewBinding.cardIndicatorText.backgroundTintList =
-                        ContextCompat.getColorStateList(viewBinding.root.context, R.color.md_theme_success)
+                        ContextCompat.getColorStateList(
+                            viewBinding.root.context,
+                            R.color.md_theme_success
+                        )
                 }
 
                 "warning" -> {
                     viewBinding.cardIndicatorText.backgroundTintList =
-                        ContextCompat.getColorStateList(viewBinding.root.context, R.color.md_theme_warning)
+                        ContextCompat.getColorStateList(
+                            viewBinding.root.context,
+                            R.color.md_theme_warning
+                        )
                 }
 
                 "hard" -> {
                     viewBinding.cardIndicatorText.backgroundTintList =
-                        ContextCompat.getColorStateList(viewBinding.root.context, R.color.md_theme_error)
+                        ContextCompat.getColorStateList(
+                            viewBinding.root.context,
+                            R.color.md_theme_error
+                        )
                 }
             }
 
 
             itemView.setOnClickListener {
-
                 val optionsCompat: ActivityOptionsCompat =
                     ActivityOptionsCompat.makeSceneTransitionAnimation(
                         itemView.context as Activity,
-//                        Pair(viewBinding.imgCard, "photo"),
-//                        Pair(viewBinding.tvCardName, "name"),
+                        androidx.core.util.Pair(viewBinding.cardTitleText, "title"),
+                        androidx.core.util.Pair(viewBinding.cardDescriptionText, "description"),
+                        androidx.core.util.Pair(viewBinding.cardFooterText, "author"),
+                        androidx.core.util.Pair(viewBinding.cardIndicatorText, "difficulty"),
                     )
 
                 val intent = Intent(itemView.context, DetailActivity::class.java)
@@ -135,7 +145,7 @@ class MusicHorizontalViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     override fun getItemCount(): Int {
-        return if (musicList.isEmpty()) 2 else musicList.size
+        return if (musicList.isEmpty() && dataResultStatus is ResultStatus.Loading) 2 else musicList.size
     }
 
 }
