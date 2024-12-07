@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.signup.SignupActivity">
+    tools:context=".ui.auth.signup.SignupActivity">
 
     <!-- Circular Progress Bar -->
     <include
@@ -26,7 +26,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guidelineHorizontal2"
-        app:srcCompat="@drawable/ic_baseline_person_24"
+        app:srcCompat="@drawable/ic_logo_purple"
         android:importantForAccessibility="no" />
 
     <TextView
@@ -37,7 +37,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:text="@string/fill_required_data"
-        android:textColor="@color/md_theme_onSurface"
+        android:textColor="@color/md_theme_primary"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +52,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:text="@string/name"
-        android:textColor="@color/md_theme_onSurface"
+        android:textColor="@color/md_theme_primary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
 
@@ -66,7 +66,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameTextView"
-        app:startIconDrawable="@drawable/ic_baseline_person_24">
+        app:startIconDrawable="@drawable/ic_baseline_person_24"
+        app:startIconTint="@color/md_theme_primary">
 
         <com.kuroakevizago.dicodingstoryapp.view.customview.EditText
             android:id="@+id/nameEditText"
@@ -84,7 +85,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:text="@string/email"
-        android:textColor="@color/md_theme_onSurface"
+        android:textColor="@color/md_theme_primary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameEditTextLayout" />
 
@@ -98,7 +99,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailTextView"
-        app:startIconDrawable="@drawable/ic_baseline_email_24">
+        app:startIconDrawable="@drawable/ic_baseline_email_24"
+        app:startIconTint="@color/md_theme_primary">
 
         <com.kuroakevizago.aira.ui.customview.auth.EmailEditText
             android:id="@+id/emailEditText"
@@ -115,7 +117,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:text="@string/password"
-        android:textColor="@color/md_theme_onSurface"
+        android:textColor="@color/md_theme_primary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailEditTextLayout" />
 
@@ -130,7 +132,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordTextView"
-        app:startIconDrawable="@drawable/ic_baseline_lock_24">
+        app:startIconDrawable="@drawable/ic_baseline_lock_24"
+        app:startIconTint="@color/md_theme_primary"
+        app:endIconTint="@color/md_theme_primary">
 
         <com.kuroakevizago.dicodingstoryapp.view.customview.auth.PasswordEditText
             android:id="@+id/passwordEditText"
@@ -142,8 +146,8 @@
 
     <com.kuroakevizago.dicodingstoryapp.view.customview.EnabledButton
         android:id="@+id/signupButton"
-        android:layout_width="0dp"
-        android:layout_height="42dp"
+        android:layout_width="190dp"
+        android:layout_height="35dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
@@ -153,56 +157,56 @@
         app:layout_constraintTop_toBottomOf="@+id/passwordEditTextLayout" />
 
 
-    <LinearLayout
-        android:id="@+id/separator_1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintTop_toBottomOf="@id/signupButton">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/separator_1"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:gravity="center"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:layout_marginBottom="16dp"-->
+<!--        android:layout_marginStart="32dp"-->
+<!--        android:layout_marginEnd="32dp"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/signupButton">-->
 
-        <!-- Left line -->
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:background="?attr/colorOutline" />
+<!--        &lt;!&ndash; Left line &ndash;&gt;-->
+<!--        <View-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="?attr/colorOutline" />-->
 
-        <!-- Text in the middle -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/or"
-            android:textColor="@color/md_theme_primary"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:textSize="14sp" />
+<!--        &lt;!&ndash; Text in the middle &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/or"-->
+<!--            android:textColor="@color/md_theme_primary"-->
+<!--            android:paddingStart="8dp"-->
+<!--            android:paddingEnd="8dp"-->
+<!--            android:textSize="14sp" />-->
 
-        <!-- Right line -->
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1"
-            android:background="?attr/colorOutline" />
+<!--        &lt;!&ndash; Right line &ndash;&gt;-->
+<!--        <View-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="?attr/colorOutline" />-->
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_android_light_rd_signup"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/separator_1"
-        android:importantForAccessibility="no" />
+<!--    <ImageButton-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@drawable/bg_android_light_rd_signup"-->
+<!--        android:layout_marginStart="32dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:layout_marginEnd="32dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/separator_1"-->
+<!--        android:importantForAccessibility="no" />-->
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHorizontal"
