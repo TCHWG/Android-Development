@@ -6,5 +6,7 @@
 
     <dimen name="card_corner">16dp</dimen>
     <dimen name="imageButtonSize">30dp</dimen>
+    <dimen name="imageButtonSize1">40dp</dimen>
     <dimen name="imageButtonSize2">60dp</dimen>
+    <dimen name="ScreenPadding">18dp</dimen>
 </resources>
