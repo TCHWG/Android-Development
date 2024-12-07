@@ -181,6 +181,17 @@ class UserRepository private constructor(
         }
     }
 
+    suspend fun removeBookmarkedMusic(musicId: String): ResultStatus<String> {
+        return try {
+            databaseService.bookmarkDao().removeMusic(musicId)
+            ResultStatus.Success("Successfully Insert Data")
+        } catch (e: HttpException) {
+            handleHttpException(e)
+        } catch (e: Exception) {
+            ResultStatus.Error("Something went wrong: ${e.localizedMessage ?: "Unknown error"}")
+        }
+    }
+
     fun getBookmarkedMusics(userId: String): LiveData<List<MusicEntity>>? {
         return try {
             return databaseService.bookmarkDao().getBookmarksForUser(userId)
@@ -188,6 +199,10 @@ class UserRepository private constructor(
             Log.e("User Bookmarked Musics", "Exception occurred: ${e.localizedMessage ?: "Unknown error"}")
             null
         }
+    }
+
+    suspend fun isBookmarked(musicId: String, userId: String): Boolean {
+        return databaseService.bookmarkDao().isMusicBookmarked(musicId, userId)
     }
 
     suspend fun postMusicPredictionModel(): ResultStatus<UserProfileData> {
