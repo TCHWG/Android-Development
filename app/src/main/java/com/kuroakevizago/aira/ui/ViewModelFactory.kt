@@ -7,6 +7,7 @@ import com.kuroakevizago.aira.data.UserRepository
 import com.kuroakevizago.dicodingstoryapp.di.Injection
 import com.kuroakevizago.aira.ui.detail.DetailViewModel
 import com.kuroakevizago.aira.ui.auth.login.LoginViewModel
+import com.kuroakevizago.aira.ui.evaluation.EvaluationViewModel
 import com.kuroakevizago.aira.ui.main.MainViewModel
 import com.kuroakevizago.aira.ui.music_player.MusicPlayerViewModel
 
@@ -26,6 +27,9 @@ class ViewModelFactory(private val repository: UserRepository) : ViewModelProvid
             }
             modelClass.isAssignableFrom(MusicPlayerViewModel::class.java) -> {
                 MusicPlayerViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(EvaluationViewModel::class.java) -> {
+                EvaluationViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
