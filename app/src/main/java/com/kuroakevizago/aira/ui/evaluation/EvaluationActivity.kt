@@ -60,8 +60,8 @@ class EvaluationActivity : AppCompatActivity() {
         binding.dateText.text = "${userEvaluation.date} | ${userEvaluation.time}"
 
         val evaluation = userEvaluation.evaluations?.get(0) ?: return
-        binding.summaryText.text = evaluation.description
-        binding.mistakeTypeText.text = evaluation.name
+        binding.summaryText.text = "Summary: ${evaluation.description}"
+        binding.mistakeTypeText.text = "Mistake type: ${evaluation.name}"
     }
 
     @Suppress("DEPRECATION")
