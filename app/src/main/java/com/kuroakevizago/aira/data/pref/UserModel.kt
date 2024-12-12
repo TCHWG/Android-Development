@@ -1,4 +1,4 @@
-package com.kuroakevizago.dicodingstoryapp.data.pref
+package com.kuroakevizago.aira.data.pref
 
 data class UserModel(
     val userId: String,
