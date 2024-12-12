@@ -20,7 +20,6 @@ body {
 
 section {
   background: #A970C1;
-  padding: 14px;
 }
 
 a {
@@ -65,7 +64,6 @@ button, .button, textarea {
   padding: 14px;
   overflow-x: auto;
   border: 3px solid black;
-  margin-top: -3px;  /* so that the border doesn't overlap with the play buttons */
 }
 
 /* d3 chart styles */

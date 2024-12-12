@@ -12,6 +12,7 @@ let totalDuration = 0; // Total duration of the NoteSequence
 
 let lastNote = noteSequence.notes[noteSequence.notes.length - 1];
 let isPlayingLastNote = false
+const tolerance = 0.1; // Example: 1 millisecond tolerance
 
 // Player configuration
 player = new mm.SoundFontPlayer(
@@ -21,10 +22,10 @@ player = new mm.SoundFontPlayer(
   null,
   {
       run: function (note) {
-            isPlayingLastNote = false
-            if (note.startTime === lastNote.startTime) {
+
+            if (note.startTime >= lastNote.startTime - tolerance) {
                 console.log("Playing the last note!");
-                isPlayingLastNote = true
+                isPlayingLastNote = true;
             }
 
            currentTime = note.startTime;
@@ -34,7 +35,7 @@ player = new mm.SoundFontPlayer(
           }
 
           // Highlight current timestamp
-          highlightTimestamp(note.startTime);
+          //highlightTimestamp(note.startTime);
       },
       stop: function () {
           for (var i = 0; i < visualizers.length; i++) {
@@ -42,12 +43,11 @@ player = new mm.SoundFontPlayer(
           }
 
           // Remove highlights when playback stops
-          clearTimestampHighlight();
+          //clearTimestampHighlight();
           checkIfPlaybackComplete()
       },
   }
 );
-
 
 // Function to check if playback is complete
 function checkIfPlaybackComplete() {
@@ -71,93 +71,93 @@ function checkIfPlaybackComplete() {
 function createSampleSequences() {
   noteSequence = {
     'notes': [
-      {'pitch': 60, 'startTime': 0, 'endTime': 0.8333333333333334, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 60, 'startTime': 0.8333333333333334, 'endTime': 1.6666666666666667, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 67, 'startTime': 1.6666666666666667, 'endTime': 2.5, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 67, 'startTime': 2.5, 'endTime': 3.3333333333333335, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 69, 'startTime': 3.3333333333333335, 'endTime': 4.166666666666667, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 69, 'startTime': 4.166666666666667, 'endTime': 5.0, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 67, 'startTime': 5.0, 'endTime': 6.666666666666667, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 65, 'startTime': 6.666666666666667, 'endTime': 7.5, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 65, 'startTime': 7.5, 'endTime': 8.333333333333334, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 64, 'startTime': 8.333333333333334, 'endTime': 9.166666666666668, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 64, 'startTime': 9.166666666666668, 'endTime': 10.000000000000002, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 62, 'startTime': 10.000000000000002, 'endTime': 10.833333333333336, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 62, 'startTime': 10.833333333333336, 'endTime': 11.66666666666667, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 60, 'startTime': 11.66666666666667, 'endTime': 13.333333333333336, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 67, 'startTime': 13.333333333333336, 'endTime': 14.16666666666667, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 67, 'startTime': 14.16666666666667, 'endTime': 15.000000000000004, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 65, 'startTime': 15.000000000000004, 'endTime': 15.833333333333337, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 65, 'startTime': 15.833333333333337, 'endTime': 16.66666666666667, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 64, 'startTime': 16.66666666666667, 'endTime': 17.500000000000004, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 64, 'startTime': 17.500000000000004, 'endTime': 18.333333333333336, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 62, 'startTime': 18.333333333333336, 'endTime': 20.000000000000004, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 67, 'startTime': 20.000000000000004, 'endTime': 20.833333333333336, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 67, 'startTime': 20.833333333333336, 'endTime': 21.666666666666668, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 65, 'startTime': 21.666666666666668, 'endTime': 22.5, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 65, 'startTime': 22.5, 'endTime': 23.333333333333332, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 64, 'startTime': 23.333333333333332, 'endTime': 24.166666666666664, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 64, 'startTime': 24.166666666666664, 'endTime': 24.999999999999996, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 62, 'startTime': 24.999999999999996, 'endTime': 26.666666666666664, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 60, 'startTime': 26.666666666666664, 'endTime': 27.499999999999996, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 60, 'startTime': 27.499999999999996, 'endTime': 28.33333333333333, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 67, 'startTime': 28.33333333333333, 'endTime': 29.16666666666666, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 67, 'startTime': 29.16666666666666, 'endTime': 29.999999999999993, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 69, 'startTime': 29.999999999999993, 'endTime': 30.833333333333325, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 69, 'startTime': 30.833333333333325, 'endTime': 31.666666666666657, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 67, 'startTime': 31.666666666666657, 'endTime': 33.33333333333332, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 65, 'startTime': 33.33333333333332, 'endTime': 34.16666666666666, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 65, 'startTime': 34.16666666666666, 'endTime': 34.99999999999999, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 64, 'startTime': 34.99999999999999, 'endTime': 35.83333333333333, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 64, 'startTime': 35.83333333333333, 'endTime': 36.666666666666664, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 62, 'startTime': 36.666666666666664, 'endTime': 37.5, 'program': 0, 'clef':'treble'}, 
-      {'pitch': 62, 'startTime': 37.5, 'endTime': 38.333333333333336, 'program': 0, 'clef':'treble'}, 
+      {'pitch': 60, 'startTime': 0, 'endTime': 0.8333333333333334, 'program': 0, 'clef':'treble'},
+      {'pitch': 60, 'startTime': 0.8333333333333334, 'endTime': 1.6666666666666667, 'program': 0, 'clef':'treble'},
+      {'pitch': 67, 'startTime': 1.6666666666666667, 'endTime': 2.5, 'program': 0, 'clef':'treble'},
+      {'pitch': 67, 'startTime': 2.5, 'endTime': 3.3333333333333335, 'program': 0, 'clef':'treble'},
+      {'pitch': 69, 'startTime': 3.3333333333333335, 'endTime': 4.166666666666667, 'program': 0, 'clef':'treble'},
+      {'pitch': 69, 'startTime': 4.166666666666667, 'endTime': 5.0, 'program': 0, 'clef':'treble'},
+      {'pitch': 67, 'startTime': 5.0, 'endTime': 6.666666666666667, 'program': 0, 'clef':'treble'},
+      {'pitch': 65, 'startTime': 6.666666666666667, 'endTime': 7.5, 'program': 0, 'clef':'treble'},
+      {'pitch': 65, 'startTime': 7.5, 'endTime': 8.333333333333334, 'program': 0, 'clef':'treble'},
+      {'pitch': 64, 'startTime': 8.333333333333334, 'endTime': 9.166666666666668, 'program': 0, 'clef':'treble'},
+      {'pitch': 64, 'startTime': 9.166666666666668, 'endTime': 10.000000000000002, 'program': 0, 'clef':'treble'},
+      {'pitch': 62, 'startTime': 10.000000000000002, 'endTime': 10.833333333333336, 'program': 0, 'clef':'treble'},
+      {'pitch': 62, 'startTime': 10.833333333333336, 'endTime': 11.66666666666667, 'program': 0, 'clef':'treble'},
+      {'pitch': 60, 'startTime': 11.66666666666667, 'endTime': 13.333333333333336, 'program': 0, 'clef':'treble'},
+      {'pitch': 67, 'startTime': 13.333333333333336, 'endTime': 14.16666666666667, 'program': 0, 'clef':'treble'},
+      {'pitch': 67, 'startTime': 14.16666666666667, 'endTime': 15.000000000000004, 'program': 0, 'clef':'treble'},
+      {'pitch': 65, 'startTime': 15.000000000000004, 'endTime': 15.833333333333337, 'program': 0, 'clef':'treble'},
+      {'pitch': 65, 'startTime': 15.833333333333337, 'endTime': 16.66666666666667, 'program': 0, 'clef':'treble'},
+      {'pitch': 64, 'startTime': 16.66666666666667, 'endTime': 17.500000000000004, 'program': 0, 'clef':'treble'},
+      {'pitch': 64, 'startTime': 17.500000000000004, 'endTime': 18.333333333333336, 'program': 0, 'clef':'treble'},
+      {'pitch': 62, 'startTime': 18.333333333333336, 'endTime': 20.000000000000004, 'program': 0, 'clef':'treble'},
+      {'pitch': 67, 'startTime': 20.000000000000004, 'endTime': 20.833333333333336, 'program': 0, 'clef':'treble'},
+      {'pitch': 67, 'startTime': 20.833333333333336, 'endTime': 21.666666666666668, 'program': 0, 'clef':'treble'},
+      {'pitch': 65, 'startTime': 21.666666666666668, 'endTime': 22.5, 'program': 0, 'clef':'treble'},
+      {'pitch': 65, 'startTime': 22.5, 'endTime': 23.333333333333332, 'program': 0, 'clef':'treble'},
+      {'pitch': 64, 'startTime': 23.333333333333332, 'endTime': 24.166666666666664, 'program': 0, 'clef':'treble'},
+      {'pitch': 64, 'startTime': 24.166666666666664, 'endTime': 24.999999999999996, 'program': 0, 'clef':'treble'},
+      {'pitch': 62, 'startTime': 24.999999999999996, 'endTime': 26.666666666666664, 'program': 0, 'clef':'treble'},
+      {'pitch': 60, 'startTime': 26.666666666666664, 'endTime': 27.499999999999996, 'program': 0, 'clef':'treble'},
+      {'pitch': 60, 'startTime': 27.499999999999996, 'endTime': 28.33333333333333, 'program': 0, 'clef':'treble'},
+      {'pitch': 67, 'startTime': 28.33333333333333, 'endTime': 29.16666666666666, 'program': 0, 'clef':'treble'},
+      {'pitch': 67, 'startTime': 29.16666666666666, 'endTime': 29.999999999999993, 'program': 0, 'clef':'treble'},
+      {'pitch': 69, 'startTime': 29.999999999999993, 'endTime': 30.833333333333325, 'program': 0, 'clef':'treble'},
+      {'pitch': 69, 'startTime': 30.833333333333325, 'endTime': 31.666666666666657, 'program': 0, 'clef':'treble'},
+      {'pitch': 67, 'startTime': 31.666666666666657, 'endTime': 33.33333333333332, 'program': 0, 'clef':'treble'},
+      {'pitch': 65, 'startTime': 33.33333333333332, 'endTime': 34.16666666666666, 'program': 0, 'clef':'treble'},
+      {'pitch': 65, 'startTime': 34.16666666666666, 'endTime': 34.99999999999999, 'program': 0, 'clef':'treble'},
+      {'pitch': 64, 'startTime': 34.99999999999999, 'endTime': 35.83333333333333, 'program': 0, 'clef':'treble'},
+      {'pitch': 64, 'startTime': 35.83333333333333, 'endTime': 36.666666666666664, 'program': 0, 'clef':'treble'},
+      {'pitch': 62, 'startTime': 36.666666666666664, 'endTime': 37.5, 'program': 0, 'clef':'treble'},
+      {'pitch': 62, 'startTime': 37.5, 'endTime': 38.333333333333336, 'program': 0, 'clef':'treble'},
       {'pitch': 60, 'startTime': 38.333333333333336, 'endTime': 40.0, 'program': 0, 'clef':'treble'},
-      
+
       {'pitch': 52, 'startTime': 0, 'endTime': 0.8333333333333334, 'program': 0, 'clef':'bass'},
-      {'pitch': 52, 'startTime': 0.8333333333333334, 'endTime': 1.6666666666666667, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 52, 'startTime': 1.6666666666666667, 'endTime': 2.5, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 52, 'startTime': 2.5, 'endTime': 3.3333333333333335, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 53, 'startTime': 3.3333333333333335, 'endTime': 4.166666666666667, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 53, 'startTime': 4.166666666666667, 'endTime': 5.0, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 52, 'startTime': 5.0, 'endTime': 6.666666666666667, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 50, 'startTime': 6.666666666666667, 'endTime': 7.5, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 50, 'startTime': 7.5, 'endTime': 8.333333333333334, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 48, 'startTime': 8.333333333333334, 'endTime': 9.166666666666668, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 48, 'startTime': 9.166666666666668, 'endTime': 10.000000000000002, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 47, 'startTime': 10.000000000000002, 'endTime': 10.833333333333336, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 47, 'startTime': 10.833333333333336, 'endTime': 11.66666666666667, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 48, 'startTime': 11.66666666666667, 'endTime': 13.333333333333336, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 52, 'startTime': 13.333333333333336, 'endTime': 14.16666666666667, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 52, 'startTime': 14.16666666666667, 'endTime': 15.000000000000004, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 50, 'startTime': 15.000000000000004, 'endTime': 15.833333333333337, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 50, 'startTime': 15.833333333333337, 'endTime': 16.66666666666667, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 48, 'startTime': 16.66666666666667, 'endTime': 17.500000000000004, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 48, 'startTime': 17.500000000000004, 'endTime': 18.333333333333336, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 47, 'startTime': 18.333333333333336, 'endTime': 20.000000000000004, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 52, 'startTime': 20.000000000000004, 'endTime': 20.833333333333336, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 52, 'startTime': 20.833333333333336, 'endTime': 21.666666666666668, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 50, 'startTime': 21.666666666666668, 'endTime': 22.5, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 50, 'startTime': 22.5, 'endTime': 23.333333333333332, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 48, 'startTime': 23.333333333333332, 'endTime': 24.166666666666664, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 48, 'startTime': 24.166666666666664, 'endTime': 24.999999999999996, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 43, 'startTime': 24.999999999999996, 'endTime': 26.666666666666664, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 52, 'startTime': 26.666666666666664, 'endTime': 27.499999999999996, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 52, 'startTime': 27.499999999999996, 'endTime': 28.33333333333333, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 52, 'startTime': 28.33333333333333, 'endTime': 29.16666666666666, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 52, 'startTime': 29.16666666666666, 'endTime': 29.999999999999993, 'program': 0, 'clef':'bass'}, 
+      {'pitch': 52, 'startTime': 0.8333333333333334, 'endTime': 1.6666666666666667, 'program': 0, 'clef':'bass'},
+      {'pitch': 52, 'startTime': 1.6666666666666667, 'endTime': 2.5, 'program': 0, 'clef':'bass'},
+      {'pitch': 52, 'startTime': 2.5, 'endTime': 3.3333333333333335, 'program': 0, 'clef':'bass'},
+      {'pitch': 53, 'startTime': 3.3333333333333335, 'endTime': 4.166666666666667, 'program': 0, 'clef':'bass'},
+      {'pitch': 53, 'startTime': 4.166666666666667, 'endTime': 5.0, 'program': 0, 'clef':'bass'},
+      {'pitch': 52, 'startTime': 5.0, 'endTime': 6.666666666666667, 'program': 0, 'clef':'bass'},
+      {'pitch': 50, 'startTime': 6.666666666666667, 'endTime': 7.5, 'program': 0, 'clef':'bass'},
+      {'pitch': 50, 'startTime': 7.5, 'endTime': 8.333333333333334, 'program': 0, 'clef':'bass'},
+      {'pitch': 48, 'startTime': 8.333333333333334, 'endTime': 9.166666666666668, 'program': 0, 'clef':'bass'},
+      {'pitch': 48, 'startTime': 9.166666666666668, 'endTime': 10.000000000000002, 'program': 0, 'clef':'bass'},
+      {'pitch': 47, 'startTime': 10.000000000000002, 'endTime': 10.833333333333336, 'program': 0, 'clef':'bass'},
+      {'pitch': 47, 'startTime': 10.833333333333336, 'endTime': 11.66666666666667, 'program': 0, 'clef':'bass'},
+      {'pitch': 48, 'startTime': 11.66666666666667, 'endTime': 13.333333333333336, 'program': 0, 'clef':'bass'},
+      {'pitch': 52, 'startTime': 13.333333333333336, 'endTime': 14.16666666666667, 'program': 0, 'clef':'bass'},
+      {'pitch': 52, 'startTime': 14.16666666666667, 'endTime': 15.000000000000004, 'program': 0, 'clef':'bass'},
+      {'pitch': 50, 'startTime': 15.000000000000004, 'endTime': 15.833333333333337, 'program': 0, 'clef':'bass'},
+      {'pitch': 50, 'startTime': 15.833333333333337, 'endTime': 16.66666666666667, 'program': 0, 'clef':'bass'},
+      {'pitch': 48, 'startTime': 16.66666666666667, 'endTime': 17.500000000000004, 'program': 0, 'clef':'bass'},
+      {'pitch': 48, 'startTime': 17.500000000000004, 'endTime': 18.333333333333336, 'program': 0, 'clef':'bass'},
+      {'pitch': 47, 'startTime': 18.333333333333336, 'endTime': 20.000000000000004, 'program': 0, 'clef':'bass'},
+      {'pitch': 52, 'startTime': 20.000000000000004, 'endTime': 20.833333333333336, 'program': 0, 'clef':'bass'},
+      {'pitch': 52, 'startTime': 20.833333333333336, 'endTime': 21.666666666666668, 'program': 0, 'clef':'bass'},
+      {'pitch': 50, 'startTime': 21.666666666666668, 'endTime': 22.5, 'program': 0, 'clef':'bass'},
+      {'pitch': 50, 'startTime': 22.5, 'endTime': 23.333333333333332, 'program': 0, 'clef':'bass'},
+      {'pitch': 48, 'startTime': 23.333333333333332, 'endTime': 24.166666666666664, 'program': 0, 'clef':'bass'},
+      {'pitch': 48, 'startTime': 24.166666666666664, 'endTime': 24.999999999999996, 'program': 0, 'clef':'bass'},
+      {'pitch': 43, 'startTime': 24.999999999999996, 'endTime': 26.666666666666664, 'program': 0, 'clef':'bass'},
+      {'pitch': 52, 'startTime': 26.666666666666664, 'endTime': 27.499999999999996, 'program': 0, 'clef':'bass'},
+      {'pitch': 52, 'startTime': 27.499999999999996, 'endTime': 28.33333333333333, 'program': 0, 'clef':'bass'},
+      {'pitch': 52, 'startTime': 28.33333333333333, 'endTime': 29.16666666666666, 'program': 0, 'clef':'bass'},
+      {'pitch': 52, 'startTime': 29.16666666666666, 'endTime': 29.999999999999993, 'program': 0, 'clef':'bass'},
       {'pitch': 53, 'startTime': 29.999999999999993, 'endTime': 30.416666666666667, 'program': 0, 'clef':'bass'},
-      {'pitch': 55, 'startTime': 30.416666666666667, 'endTime': 30.833333333333325, 'program': 0, 'clef':'bass'}, 
+      {'pitch': 55, 'startTime': 30.416666666666667, 'endTime': 30.833333333333325, 'program': 0, 'clef':'bass'},
       {'pitch': 57, 'startTime': 30.833333333333325, 'endTime': 31.25, 'program': 0, 'clef':'bass'},
-      {'pitch': 59, 'startTime': 31.25, 'endTime': 31.666666666666657, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 60, 'startTime': 31.666666666666657, 'endTime': 33.33333333333332, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 50, 'startTime': 33.33333333333332, 'endTime': 34.16666666666666, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 57, 'startTime': 34.16666666666666, 'endTime': 34.99999999999999, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 55, 'startTime': 34.99999999999999, 'endTime': 35.83333333333333, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 48, 'startTime': 35.83333333333333, 'endTime': 36.666666666666664, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 55, 'startTime': 36.666666666666664, 'endTime': 37.5, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 43, 'startTime': 37.5, 'endTime': 38.333333333333336, 'program': 0, 'clef':'bass'}, 
-      {'pitch': 48, 'startTime': 38.333333333333336, 'endTime': 40.0, 'program': 0, 'clef':'bass'}], 
+      {'pitch': 59, 'startTime': 31.25, 'endTime': 31.666666666666657, 'program': 0, 'clef':'bass'},
+      {'pitch': 60, 'startTime': 31.666666666666657, 'endTime': 33.33333333333332, 'program': 0, 'clef':'bass'},
+      {'pitch': 50, 'startTime': 33.33333333333332, 'endTime': 34.16666666666666, 'program': 0, 'clef':'bass'},
+      {'pitch': 57, 'startTime': 34.16666666666666, 'endTime': 34.99999999999999, 'program': 0, 'clef':'bass'},
+      {'pitch': 55, 'startTime': 34.99999999999999, 'endTime': 35.83333333333333, 'program': 0, 'clef':'bass'},
+      {'pitch': 48, 'startTime': 35.83333333333333, 'endTime': 36.666666666666664, 'program': 0, 'clef':'bass'},
+      {'pitch': 55, 'startTime': 36.666666666666664, 'endTime': 37.5, 'program': 0, 'clef':'bass'},
+      {'pitch': 43, 'startTime': 37.5, 'endTime': 38.333333333333336, 'program': 0, 'clef':'bass'},
+      {'pitch': 48, 'startTime': 38.333333333333336, 'endTime': 40.0, 'program': 0, 'clef':'bass'}],
     'timeSignatures': [{'time': 0, 'numerator': 4, 'denominator': 4}],
     'tempos': [{'time': 0, 'qpm': 72}],
     'totalTime': 40
@@ -209,8 +209,8 @@ function __generator(thisArg, body) {
 
 var __extends = (this && this.__extends) || (function () {
   var extendStatics = function (d, b) {
-      extendStatics = Object.setPrototypeOf || 
-          ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) || 
+      extendStatics = Object.setPrototypeOf ||
+          ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
           function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
       return extendStatics(d, b);
   };
@@ -234,6 +234,7 @@ function loadFile(e) {
     );
 }
 
+
 // Initialize the player and StaffSVGVisualizer
 function initPlayerAndVisualizer(seq=noteSequence) {
   return __awaiter(this, void 0, void 0, function () {
@@ -252,10 +253,10 @@ function initPlayerAndVisualizer(seq=noteSequence) {
                   const bassSequence = { ...seq, notes: bassNotes };
 
                   visualizers = [
-                      new mm.StaffSVGVisualizer(trebleSequence, trebleStaff, { 
+                      new mm.StaffSVGVisualizer(trebleSequence, trebleStaff, {
                         scrollType: mm.ScrollType.NOTE
                     }),
-                      new mm.StaffSVGVisualizer(bassSequence, bassStaff, { 
+                      new mm.StaffSVGVisualizer(bassSequence, bassStaff, {
                       scrollType: mm.ScrollType.NOTE
                     }),
                   ];
@@ -264,10 +265,6 @@ function initPlayerAndVisualizer(seq=noteSequence) {
 
                   // Set tempo
                   player.setTempo(tempo);
-
-                  // Render Timestamps
-                  renderTimestamps(seq);
-
                   return [4, player.loadSamples(seq)];
               case 1:
                   _a.sent();
@@ -277,17 +274,136 @@ function initPlayerAndVisualizer(seq=noteSequence) {
   });
 }
 
+// Initialize the player and StaffSVGVisualizer
+function initPlayerAndVisualizerHighlight(seq = noteSequence, highlightIndices = "") {
+  return __awaiter(this, void 0, void 0, function () {
+      var tempo;
+      return __generator(this, function (_a) {
+          switch (_a.label) {
+              case 0:
+                const highlightIndicesString = highlightIndices.toString()
+                // Parse highlightIndices string into an array of numbers
+                const highlightIndicesArray = highlightIndicesString.split(",").map(Number);
+
+                // Add isHighlighted property for each note
+                seq.notes = seq.notes.map((note, index) => {
+                    return {
+                        ...note,
+                        isHighlighted: highlightIndicesArray.includes(index),
+                    };
+                });
+
+                noteSequence = seq;
+                calculateTotalDuration(seq);
+
+                // Separate notes by clef
+                const trebleNotes = seq.notes
+                    .map((note, index) => ({ ...note, originalIndex: index }))
+                    .filter(note => note.clef === "treble");
+                const bassNotes = seq.notes
+                    .map((note, index) => ({ ...note, originalIndex: index }))
+                    .filter(note => note.clef === "bass");
+
+                // Create clef-specific sequences
+                const trebleSequence = { ...seq, notes: trebleNotes };
+                const bassSequence = { ...seq, notes: bassNotes };
+
+                visualizers = [
+                    new mm.StaffSVGVisualizer(trebleSequence, trebleStaff, {
+                        scrollType: mm.ScrollType.NOTE,
+                    }),
+                    new mm.StaffSVGVisualizer(bassSequence, bassStaff, {
+                        scrollType: mm.ScrollType.NOTE,
+                    }),
+                ];
+                currentSequence = seq;
+                tempo = seq.tempos[0].qpm;
+
+                // Set tempo
+                player.setTempo(tempo);
+
+                // Extract highlight indices for treble and bass clefs
+                const trebleHighlightIndices = highlightIndicesArray.filter(index =>
+                  trebleNotes.some(note => note.originalIndex === index)
+                ).map(index => trebleNotes.findIndex(note => note.originalIndex === index));
+
+                const bassHighlightIndices = highlightIndicesArray.filter(index =>
+                  bassNotes.some(note => note.originalIndex === index)
+                ).map(index => bassNotes.findIndex(note => note.originalIndex === index));
+                
+                return [
+                    4,
+                    player.loadSamples(seq).then(() => {
+                        // Highlight treble notes
+                        trebleNotes.forEach((note, index) => {
+                            const dataId = `${index}-${note.pitch}`;
+                            const noteElement = trebleStaff.querySelector(
+                                `g[data-id="${dataId}"]`
+                            );
+                            if (trebleHighlightIndices.includes(index)) {
+                                console.log(`Treble Note ${index} is highlighted ${noteElement} with data id: ${dataId}`);
+                                if (noteElement) {
+                                    noteElement.style.fill = 'red';
+                                    noteElement.style.strokeWidth = '2px';
+                                }
+                            } else {
+                                console.log(`Treble Note ${index} is not highlighted`);
+                                if (noteElement) {
+                                    noteElement.style.fill = 'black';
+                                    noteElement.style.strokeWidth = '1px';
+                                }
+                            }
+                        });
+
+                        // Highlight bass notes
+                        bassNotes.forEach((note, index) => {
+                            const dataId = `${index}-${note.pitch}`;
+                            const noteElement = bassStaff.querySelector(
+                                `g[data-id="${dataId}"]`
+                            );
+                            if (bassHighlightIndices.includes(index)) {
+                                console.log(`Bass Note ${index} is highlighted`);
+                                if (noteElement) {
+                                    noteElement.style.fill = 'red';
+                                    noteElement.style.strokeWidth = '2px';
+                                }
+                            } else {
+                                console.log(`Bass Note ${index} is not highlighted`);
+                                if (noteElement) {
+                                    noteElement.style.fill = 'black';
+                                    noteElement.style.strokeWidth = '1px';
+                                }
+                            }
+                        });
+
+                    }),
+                  ];
+              case 1:
+                  _a.sent();
+                  return [2];
+          }
+      });
+  });
+}
+
+
+
+
 // Start or Stop the player
 function togglePlay() {
   if (player.isPlaying()) {
       player.stop();
   } else {
+      isPlayingLastNote = false
       player.start(currentSequence);
   }
 }
 
 function start() {
-  if (!player.isPlaying()) { player.start(currentSequence); }
+  if (!player.isPlaying()) {
+        isPlayingLastNote = false
+        player.start(currentSequence);
+    }
 }
 
 function stop() {
