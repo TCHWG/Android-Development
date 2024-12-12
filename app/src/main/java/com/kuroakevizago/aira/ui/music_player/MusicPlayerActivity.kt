@@ -17,16 +17,26 @@ import android.webkit.WebViewClient
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.kuroakevizago.aira.R
 import com.kuroakevizago.aira.adapter.MusicVerticalViewAdapter
 import com.kuroakevizago.aira.data.remote.response.MusicItem
+import com.kuroakevizago.aira.data.status.ResultStatus
 import com.kuroakevizago.aira.databinding.ActivityMusicPlayerBinding
 import com.kuroakevizago.aira.ui.ViewModelFactory
 import com.kuroakevizago.aira.ui.auth.login.LoginActivity
+import com.kuroakevizago.aira.ui.evaluation.EvaluationActivity
+import com.kuroakevizago.aira.utils.Tags
+import com.kuroakevizago.aira.utils.Tags.Companion.EVALUATION_TAG
+import com.kuroakevizago.aira.utils.Tags.Companion.MUSIC_FILE_TAG
+import com.kuroakevizago.aira.utils.Tags.Companion.MUSIC_TAG
+import com.kuroakevizago.aira.utils.addTouchScaleEffect
+import com.kuroakevizago.aira.utils.fetchJsonFromUrl
 import com.kuroakevizago.aira.utils.getAudioDuration
+import com.kuroakevizago.aira.utils.setEnabledWithTransparency
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -39,9 +49,7 @@ class MusicPlayerActivity : AppCompatActivity() {
         ViewModelFactory.getInstance(this)
     }
     private lateinit var binding: ActivityMusicPlayerBinding
-    private val client = OkHttpClient()
 
-    private var musicItem: MusicItem? = null
 
     private var mediaRecorder: MediaRecorder? = null
 
@@ -55,6 +63,7 @@ class MusicPlayerActivity : AppCompatActivity() {
                 startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             }
+            viewModel.userId = user.userId
         }
 
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
@@ -63,10 +72,11 @@ class MusicPlayerActivity : AppCompatActivity() {
         binding = ActivityMusicPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        musicItem = intent.getParcelableExtra(MusicVerticalViewAdapter.MUSIC_TAG)
+        viewModel.musicItem = intent.getParcelableExtra(MUSIC_TAG)
+        val musicItem = viewModel.musicItem
         if (musicItem != null) {
-            setupViewData(musicItem!!)
-            setupWebView(musicItem!!)
+            setupViewData(musicItem)
+            setupWebView(musicItem)
             setupAction(binding.musicWebView)
         }
 
@@ -113,14 +123,22 @@ class MusicPlayerActivity : AppCompatActivity() {
     }
 
     private fun setupAction(webView: WebView) {
+
+        binding.playButton.addTouchScaleEffect()
+        binding.restartButton.addTouchScaleEffect()
+        binding.backButton.addTouchScaleEffect()
+        binding.recordButton.addTouchScaleEffect()
+        binding.evaluateButton.addTouchScaleEffect()
+
         binding.playButton.setOnClickListener {
+            viewModel.isRecording = false
             toggleVisualizerPlay(webView)
         }
 
         binding.restartButton.setOnClickListener {
             toggleVisualizerPlay(webView, false)
-            if (!musicItem?.notePath.isNullOrEmpty()) {
-                initVisualizer(webView, musicItem?.notePath!!)
+            if (!viewModel.musicItem?.notePath.isNullOrEmpty()) {
+                initVisualizer(webView, viewModel.musicItem?.notePath!!)
             }
 
             if (viewModel.tempAudioFile != null) {
@@ -132,6 +150,10 @@ class MusicPlayerActivity : AppCompatActivity() {
 
         binding.backButton.setOnClickListener {
             finish()
+        }
+
+        binding.evaluateButton.setOnClickListener {
+            evaluateRecording()
         }
 
         binding.recordButton.setOnClickListener {
@@ -173,13 +195,15 @@ class MusicPlayerActivity : AppCompatActivity() {
 
         object : CountDownTimer(3000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                val secondsLeft = (millisUntilFinished / 1000).toInt()
+                val secondsLeft = (millisUntilFinished / 1000).toInt() + 1
                 countdownTextView.text = secondsLeft.toString() // Update countdown text
             }
 
             override fun onFinish() {
                 countdownTextView.text = "" // Clear the countdown text
                 countdownTextView.visibility = View.GONE // Hide the TextView
+                binding.recordButton.setEnabledWithTransparency(false)
+                binding.playButton.setEnabledWithTransparency(false)
                 startRecording() // Start recording after the countdown
                 toggleRecordButtonIcon()
                 toggleVisualizerPlay(binding.musicWebView)
@@ -209,30 +233,67 @@ class MusicPlayerActivity : AppCompatActivity() {
                 release() // Release resources
             }
             mediaRecorder = null
-            Toast.makeText(this, "Recording saved temporarily at: ${viewModel.tempAudioFile?.absolutePath}", Toast.LENGTH_SHORT).show()
+            binding.playButton.setEnabledWithTransparency(true)
+            binding.recordButton.setEnabledWithTransparency(true)
+            println("Recording saved temporarily at: ${viewModel.tempAudioFile?.absolutePath}")
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(
-                this,
-                "Failed to stop recording",
-                Toast.LENGTH_SHORT).
-            show()
+            println("Failed to stop recording")
+        }
+    }
+
+    private fun evaluateRecording() {
+        val musicItem = viewModel.musicItem
+        val userId = viewModel.userId
+        val audioFile = viewModel.tempAudioFile
+
+        if (musicItem == null || userId.isNullOrEmpty() || audioFile == null) return
+
+        viewModel.fetchEvaluationResponse(
+            userId,
+            musicItem.id.toString(),
+            audioFile
+        ).observe(this) {result ->
+            when (result) {
+                is ResultStatus.Error -> {
+                    if (!viewModel.isEvaluateError) {
+                        viewModel.isEvaluateError = true
+
+                        AlertDialog.Builder(this).apply {
+                            setTitle(getString(R.string.failed))
+                            setMessage("${getString(R.string.something_went_wrong)}\n${result.error}")
+                            setNegativeButton(getString(R.string.close)) { _, _ ->
+                                viewModel.isEvaluateError = false
+                                binding.progressLayout.visibility = View.INVISIBLE
+                            }
+                            create()
+                            show()
+                        }
+                    }
+                }
+                is ResultStatus.Loading -> {
+                    binding.progressLayout.visibility = View.VISIBLE
+                }
+                is ResultStatus.Success -> {
+                    binding.progressLayout.visibility = View.INVISIBLE
+                    val intent = Intent(this, EvaluationActivity::class.java)
+                    intent.putExtra(MUSIC_TAG, musicItem)
+                    intent.putExtra(EVALUATION_TAG, result.data.data)
+                    //intent.putExtra(MUSIC_FILE_TAG, viewModel.tempAudioFile)
+                    startActivity(intent)
+                }
+            }
         }
     }
 
     @JavascriptInterface
     fun onPlaybackStopped(isPlayingLastNote: Boolean, stopTime: Float, duration: Float) {
-        if (isPlayingLastNote) {
+        if (isPlayingLastNote && viewModel.isRecording) {
             val remainingTime = (duration - stopTime).coerceAtLeast(0f) // Ensure non-negative delay
-
             if (remainingTime > 0.01) {
                 // Add a delay based on the remaining time
-                val delayMillis = (remainingTime * 1000).toLong() // Convert to milliseconds
-                Toast.makeText(
-                    this,
-                    "Delay in milis $delayMillis",
-                    Toast.LENGTH_LONG
-                ).show()
+                val delayMillis = (0.1 * 1000).toLong() // Convert to milliseconds
+                println("Delay in millis $delayMillis")
                 Handler(Looper.getMainLooper()).postDelayed({
                     // Recheck if the playback has reached the end
                     if (stopTime + remainingTime >= duration) {
@@ -248,11 +309,7 @@ class MusicPlayerActivity : AppCompatActivity() {
                 setEvaluateUIVisibility(true)
             }
         } else {
-            Toast.makeText(
-                this,
-                "Music has isn't finished, failed to record audio",
-                Toast.LENGTH_LONG
-            ).show()
+            println("Music isn't finished, failed to record audio $stopTime")
         }
     }
 
@@ -260,7 +317,6 @@ class MusicPlayerActivity : AppCompatActivity() {
         // Fetch JSON from cloud
         fetchJsonFromUrl(jsonUrl) { json ->
             if (json != null) {
-
                 // Pass JSON to JavaScript function
                 webView.post {
                     webView.evaluateJavascript("javascript:initPlayerAndVisualizer($json)", null)
@@ -270,27 +326,6 @@ class MusicPlayerActivity : AppCompatActivity() {
                 println("Failed to fetch JSON")
             }
         }
-    }
-
-    private fun fetchJsonFromUrl(url: String, callback: (String?) -> Unit) {
-        val request = Request.Builder().url(url).build()
-
-        client.newCall(request).enqueue(object : okhttp3.Callback {
-            override fun onFailure(call: okhttp3.Call, e: IOException) {
-                e.printStackTrace()
-                callback(null)
-            }
-
-            override fun onResponse(call: okhttp3.Call, response: Response) {
-                if (response.isSuccessful) {
-                    response.body?.let {
-                        callback(it.string())
-                    }
-                } else {
-                    callback(null)
-                }
-            }
-        })
     }
 
     private fun toggleVisualizerPlay(webView: WebView, isPlay: Boolean = true) {
@@ -333,8 +368,6 @@ class MusicPlayerActivity : AppCompatActivity() {
             binding.fileNameText.text = "Recorded_file | Duration: $audioDuration"
         }
     }
-
-
 
     private fun checkPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
