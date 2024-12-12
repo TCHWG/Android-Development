@@ -25,8 +25,6 @@ class BookmarkFragment : Fragment() {
 
     private lateinit var binding: FragmentBookmarkBinding
 
-    private var userId: String = ""
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -56,12 +54,12 @@ class BookmarkFragment : Fragment() {
 
     private fun setupDataObserve() {
         setupUserSessionData()
-        setupBookmarkedMusics()
     }
 
     private fun setupUserSessionData() {
         viewModel.getSession().observe(viewLifecycleOwner) {user ->
-            userId = user.userId
+            viewModel.userId = user.userId
+            setupBookmarkedMusics()
         }
     }
 
@@ -79,11 +77,11 @@ class BookmarkFragment : Fragment() {
         featuredRecyclerView.adapter = adapter
 
         // Observe the stories data
-        viewModel.getBookmarkedMusics(userId)?.observe(viewLifecycleOwner) {result ->
+        viewModel.getBookmarkedMusics(viewModel.userId!!)?.observe(viewLifecycleOwner) {result ->
             showFeaturedMusicsErrorRetry(false)
             adapter.musicList = result.map { entity ->
                 MusicItem(
-                    id = id,
+                    id = entity.id.toInt(),
                     name = entity.name,
                     author = entity.author,
                     difficulty = entity.difficulty,

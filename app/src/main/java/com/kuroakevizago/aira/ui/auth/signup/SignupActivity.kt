@@ -19,6 +19,7 @@ import com.kuroakevizago.aira.databinding.ActivitySignupBinding
 import com.kuroakevizago.aira.data.status.ResultStatus
 import com.kuroakevizago.aira.ui.ViewModelFactory
 import com.kuroakevizago.aira.ui.auth.login.LoginViewModel
+import com.kuroakevizago.aira.utils.addTouchScaleEffect
 
 class SignupActivity : AppCompatActivity() {
     private val viewModel by viewModels<LoginViewModel> {
@@ -67,6 +68,7 @@ class SignupActivity : AppCompatActivity() {
         passwordEditText.addTextChangedListener { signupDataCheck() }
         emailEditText.addTextChangedListener { signupDataCheck() }
 
+        binding.signupButton.addTouchScaleEffect()
         binding.signupButton.setOnClickListener {
             viewModel.register(
                 nameEditText.text.toString(),

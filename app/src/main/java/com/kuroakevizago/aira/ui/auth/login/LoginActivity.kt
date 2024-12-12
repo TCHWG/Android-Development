@@ -29,7 +29,8 @@ import com.kuroakevizago.aira.databinding.ActivityLoginBinding
 import com.kuroakevizago.aira.ui.ViewModelFactory
 import com.kuroakevizago.aira.ui.main.MainActivity
 import com.kuroakevizago.aira.ui.auth.signup.SignupActivity
-import com.kuroakevizago.dicodingstoryapp.data.pref.UserModel
+import com.kuroakevizago.aira.utils.addTouchScaleEffect
+import com.kuroakevizago.aira.data.pref.UserModel
 import kotlinx.coroutines.launch
 
 
@@ -99,6 +100,7 @@ class LoginActivity : AppCompatActivity() {
             viewModel.login(email, password)
         }
 
+
         binding.signupButton.setOnClickListener {
             val intent = Intent(this, SignupActivity::class.java)
             startActivity(intent)
@@ -107,6 +109,10 @@ class LoginActivity : AppCompatActivity() {
         binding.signInGoogleButton.setOnClickListener {
             signIn()
         }
+
+        binding.loginButton.addTouchScaleEffect()
+        binding.signupButton.addTouchScaleEffect()
+        binding.signInGoogleButton.addTouchScaleEffect()
 
     }
 
@@ -140,24 +146,30 @@ class LoginActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
+                showLoading(true) // Show the progress bar
                 val result: GetCredentialResponse = credentialManager.getCredential(
                     //import from androidx.CredentialManager
                     request = request,
                     context = this@LoginActivity,
                 )
-                handleSignIn(result)
-            } catch (e: GetCredentialException) { //import from androidx.CredentialManager
-                Log.d("Error", e.message.toString())
+                handleSignIn(result) // Handle the successful sign-in result
+            } catch (e: GetCredentialException) { // Import from androidx.CredentialManager
+                Log.d("Error", e.message.toString()) // Log the error message
+            } finally {
+                showLoading(false) // Always hide the progress bar, whether successful or not
             }
         }
     }
 
     private fun handleSignIn(result: GetCredentialResponse) {
+        showLoading(true)
         // Handle the successfully returned credential.
         when (val credential = result.credential) {
             is CustomCredential -> {
                 if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
                     try {
+                        showLoading(false)
+
                         // Use googleIdTokenCredential and extract id to validate and authenticate on your server.
                         val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
                         firebaseAuthWithGoogle(googleIdTokenCredential.idToken)
@@ -189,8 +201,18 @@ class LoginActivity : AppCompatActivity() {
                     user?.getIdToken(true)?.addOnCompleteListener {
                             if (it.isSuccessful) {
                                 val token: String? = it.result.token
-                                viewModel.saveSession(UserModel(user.uid, user.email!!, token!!))
-                                moveToMainActivity()
+                                if (token != null) {
+                                    viewModel.saveSession(UserModel(user.uid, user.email!!, token))
+                                    moveToMainActivity()
+                                } else {
+                                    AlertDialog.Builder(this).apply {
+                                        setTitle(getString(R.string.failed))
+                                        setMessage("${getString(R.string.something_went_wrong)}\n Try again")
+                                        setNegativeButton(getString(R.string.close)) { _, _ -> }
+                                        create()
+                                        show()
+                                    }
+                                }
                             } else {
                                 // Handle error -> task.getException();
                             }

@@ -9,9 +9,8 @@ import com.kuroakevizago.aira.data.UserRepository
 import com.kuroakevizago.aira.data.local.entity.MusicEntity
 import com.kuroakevizago.aira.data.remote.response.MusicItem
 import com.kuroakevizago.aira.data.remote.response.MusicResponse
-import com.kuroakevizago.aira.data.remote.response.MusicsResponse
 import com.kuroakevizago.aira.data.status.ResultStatus
-import com.kuroakevizago.dicodingstoryapp.data.pref.UserModel
+import com.kuroakevizago.aira.data.pref.UserModel
 import kotlinx.coroutines.launch
 
 class DetailViewModel(private val repository: UserRepository) : ViewModel() {
@@ -20,15 +19,22 @@ class DetailViewModel(private val repository: UserRepository) : ViewModel() {
     val musicDetail: LiveData<ResultStatus<MusicResponse>> = _musicDetail
 
     var userId: String? = null
+    var currentData: MusicItem? = null
+
 
     fun getSession(): LiveData<UserModel> {
         return repository.getSession().asLiveData()
     }
 
+    fun logout() {
+        viewModelScope.launch {
+            repository.logout()
+        }
+    }
+
     fun initExistingData(musicItem: MusicItem) {
         _musicDetail.postValue(
-            ResultStatus.Success(MusicResponse(data = musicItem)
-            )
+            ResultStatus.Success(MusicResponse(data = musicItem))
         )
     }
 
@@ -58,6 +64,14 @@ class DetailViewModel(private val repository: UserRepository) : ViewModel() {
             result.value = repository.isBookmarked(musicId, userId)
         }
         return result
+    }
+
+     fun <T> checkResultTokenStatus(status: ResultStatus<T>) {
+        val errorStatus = status as? ResultStatus.Error
+
+        if (errorStatus != null && errorStatus.error.lowercase().contains("invalid token")) {
+            logout()
+        }
     }
 
 }
