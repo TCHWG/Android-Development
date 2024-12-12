@@ -5,6 +5,8 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
+
 
 class Api {
     companion object {
@@ -20,8 +22,10 @@ class Api {
             val client = OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor(authInterceptor)
+                .connectTimeout(60, TimeUnit.SECONDS) // Connection timeout
+                .writeTimeout(60, TimeUnit.SECONDS) // Write timeout
+                .readTimeout(60, TimeUnit.SECONDS) // Read timeout
                 .build()
-
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://backend-dot-aira-backend-backup.et.r.appspot.com/api/")
                 .addConverterFactory(GsonConverterFactory.create())

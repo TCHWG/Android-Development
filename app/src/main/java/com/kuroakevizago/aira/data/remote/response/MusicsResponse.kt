@@ -25,8 +25,6 @@ data class MusicsResponse(
 
 @Parcelize
 data class MusicItem(
-
-
 	@field:SerializedName("difficulty")
 	val difficulty: String? = null,
 

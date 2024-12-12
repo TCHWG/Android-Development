@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import com.google.gson.Gson
 import com.kuroakevizago.aira.data.local.database.AiraRoomDatabase
 import com.kuroakevizago.aira.data.local.entity.MusicEntity
-import com.kuroakevizago.dicodingstoryapp.data.pref.UserModel
+import com.kuroakevizago.aira.data.pref.UserModel
 import com.kuroakevizago.dicodingstoryapp.data.pref.UserPreference
 import com.kuroakevizago.aira.data.remote.api.ApiService
 import com.kuroakevizago.aira.data.remote.request.LoginRequest
@@ -14,9 +14,11 @@ import com.kuroakevizago.aira.data.remote.request.UpdateUsersRequest
 import com.kuroakevizago.aira.data.remote.response.auth.LoginResponse
 import com.kuroakevizago.aira.data.remote.response.auth.RegisterResponse
 import com.kuroakevizago.aira.data.remote.response.ErrorResponse
+import com.kuroakevizago.aira.data.remote.response.EvaluationResponse
+import com.kuroakevizago.aira.data.remote.response.EvaluationsResponse
 import com.kuroakevizago.aira.data.remote.response.MusicResponse
 import com.kuroakevizago.aira.data.remote.response.MusicsResponse
-import com.kuroakevizago.aira.data.remote.response.user.UserProfileData
+import com.kuroakevizago.aira.data.remote.response.UserMusics
 import com.kuroakevizago.aira.data.remote.response.user.UserProfileResponse
 import com.kuroakevizago.aira.data.status.ResultStatus
 import kotlinx.coroutines.flow.Flow
@@ -94,6 +96,35 @@ class UserRepository private constructor(
     suspend fun getUserMusics(): ResultStatus<MusicsResponse> {
         return try {
             val response = apiService.getUserMusics()
+            if (response.success == true) {
+                ResultStatus.Success(response)
+            } else {
+                ResultStatus.Error("API call failed: ${response.message}")
+            }
+        } catch (e: HttpException) {
+            handleHttpException(e)
+        } catch (e: Exception) {
+            ResultStatus.Error("Exception occurred: ${e.localizedMessage ?: "Unknown error"}")
+        }
+    }
+    suspend fun getUserEvaluationsByMusic(userId: String, musicId: String): ResultStatus<EvaluationsResponse> {
+        return try {
+            val response = apiService.getEvaluations(userId, musicId)
+            if (response.success == true) {
+                ResultStatus.Success(response)
+            } else {
+                ResultStatus.Error("API call failed: ${response.message}")
+            }
+        } catch (e: HttpException) {
+            handleHttpException(e)
+        } catch (e: Exception) {
+            ResultStatus.Error("Exception occurred: ${e.localizedMessage ?: "Unknown error"}")
+        }
+    }
+
+    suspend fun getUserEvaluations(userId: String): ResultStatus<EvaluationsResponse> {
+        return try {
+            val response = apiService.getEvaluations(userId)
             if (response.success == true) {
                 ResultStatus.Success(response)
             } else {
@@ -205,21 +236,24 @@ class UserRepository private constructor(
         return databaseService.bookmarkDao().isMusicBookmarked(musicId, userId)
     }
 
-    suspend fun postMusicPredictionModel(): ResultStatus<UserProfileData> {
-        //TODO
-        return ResultStatus.Error("")
-//        return try {
-//            val response = apiService.getUserProfile()
-//            if (response.success == true && response.data != null) {
-//                ResultStatus.Success(response.data)
-//            } else {
-//                ResultStatus.Error("API call failed: ${response.message}")
-//            }
-//        } catch (e: HttpException) {
-//            handleHttpException(e)
-//        } catch (e: Exception) {
-//            ResultStatus.Error("Exception occurred: ${e.localizedMessage ?: "Unknown error"}")
-//        }
+    suspend fun postMusicPredictionModel(userId: String, musicId: String, musicFile: File): ResultStatus<EvaluationResponse> {
+        return try {
+            // Convert the file to RequestBody
+            val requestFile = musicFile.asRequestBody("audio/*".toMediaTypeOrNull())
+            val body = MultipartBody.Part.createFormData("file", musicFile.name, requestFile)
+
+            // Call the API
+            val response = apiService.postEvaluation(userId, musicId, body)
+            if (response.success == true) {
+                ResultStatus.Success(response)
+            } else {
+                ResultStatus.Error("API call failed: ${response.message ?: "No error message"}")
+            }
+        } catch (e: HttpException) {
+            handleHttpException(e) // Delegate to a function that parses HTTP exceptions
+        } catch (e: Exception) {
+            ResultStatus.Error("Unexpected error: ${e.localizedMessage ?: "Unknown error occurred"}")
+        }
     }
 
     private fun handleHttpException(e: HttpException): ResultStatus.Error{

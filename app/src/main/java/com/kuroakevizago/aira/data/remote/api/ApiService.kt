@@ -5,6 +5,8 @@ import com.kuroakevizago.aira.data.remote.request.RegisterRequest
 import com.kuroakevizago.aira.data.remote.request.UpdateUsersRequest
 import com.kuroakevizago.aira.data.remote.response.MusicsResponse
 import com.kuroakevizago.aira.data.remote.response.DefaultResponse
+import com.kuroakevizago.aira.data.remote.response.EvaluationResponse
+import com.kuroakevizago.aira.data.remote.response.EvaluationsResponse
 import com.kuroakevizago.aira.data.remote.response.MusicResponse
 import com.kuroakevizago.aira.data.remote.response.auth.LoginResponse
 import com.kuroakevizago.aira.data.remote.response.auth.RegisterResponse
@@ -64,6 +66,25 @@ interface ApiService {
     suspend fun updateUserProfilePhoto(
         @Part photo: MultipartBody.Part, // Use MultipartBody.Part for file uploads
     ): RegisterResponse
+
+    @Multipart
+    @POST("evaluations/{userId}/{musicId}")
+    suspend fun postEvaluation(
+        @Path("userId") userId: String,
+        @Path("musicId") musicId: String,
+        @Part music: MultipartBody.Part
+    ): EvaluationResponse
+
+    @GET("evaluations/{userId}/{musicId}")
+    suspend fun getEvaluations(
+        @Path("userId") userId: String,
+        @Path("musicId") musicId: String
+    ): EvaluationsResponse
+
+    @GET("evaluations/{userId}")
+    suspend fun getEvaluations(
+        @Path("userId") userId: String,
+    ): EvaluationsResponse
 
     @GET("users/profile")
     suspend fun getUserProfile(): UserProfileResponse
