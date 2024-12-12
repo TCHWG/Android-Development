@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.kuroakevizago.aira.adapter
 
 import android.annotation.SuppressLint
@@ -16,12 +18,9 @@ import com.kuroakevizago.aira.databinding.CardViewSmallBinding
 import com.kuroakevizago.aira.databinding.CardViewSmallShimmerBinding
 import com.kuroakevizago.aira.data.status.ResultStatus
 import com.kuroakevizago.aira.ui.detail.DetailActivity
+import com.kuroakevizago.aira.utils.Tags.Companion.MUSIC_TAG
 
 class MusicVerticalViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    companion object {
-        const val MUSIC_TAG = "music_item"
-    }
 
     var musicList: List<MusicItem?> = emptyList()
     var dataResultStatus: ResultStatus<List<MusicItem?>?> = ResultStatus.Loading
@@ -63,18 +62,12 @@ class MusicVerticalViewAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             itemView.setOnClickListener {
 
-                val optionsCompat: ActivityOptionsCompat =
-                    ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        itemView.context as Activity,
-                        androidx.core.util.Pair(viewBinding.cardTitleText, "title"),
-                        androidx.core.util.Pair(viewBinding.cardDescriptionText, "description"),
-                        androidx.core.util.Pair(viewBinding.cardFooterText, "author"),
-                        androidx.core.util.Pair(viewBinding.cardIndicatorText, "difficulty"),
-                    )
-
                 val intent = Intent(itemView.context, DetailActivity::class.java)
                 intent.putExtra(MUSIC_TAG, music)
-                itemView.context.startActivity(intent, optionsCompat.toBundle())
+
+                val activity = itemView.context as Activity
+                activity.startActivity(intent)
+                activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             }
         }
     }
