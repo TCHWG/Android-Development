@@ -5,8 +5,34 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import android.net.Uri
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
 import java.io.File
 import java.io.IOException
+
+private val client = OkHttpClient()
+
+fun fetchJsonFromUrl(url: String, callback: (String?) -> Unit) {
+    val request = Request.Builder().url(url).build()
+
+    client.newCall(request).enqueue(object : okhttp3.Callback {
+        override fun onFailure(call: okhttp3.Call, e: IOException) {
+            e.printStackTrace()
+            callback(null)
+        }
+
+        override fun onResponse(call: okhttp3.Call, response: Response) {
+            if (response.isSuccessful) {
+                response.body?.let {
+                    callback(it.string())
+                }
+            } else {
+                callback(null)
+            }
+        }
+    })
+}
 
 // Function to retrieve the audio duration
 fun getAudioDuration(filePath: String): String {
