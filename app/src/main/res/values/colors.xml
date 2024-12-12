@@ -15,7 +15,7 @@
     <color name="md_theme_error2">#DA2C2F</color>
     <color name="md_theme_success">#72C170</color>
     <color name="md_theme_warning">#F8D420</color>
-
+    <color name="md_theme_transparent">#D0C5C5C5</color>
     <color name="md_theme_onError">#FFFFFF</color>
     <color name="md_theme_errorContainer">#DA2C2F</color>
     <color name="md_theme_onErrorContainer">#FFFFFF</color>

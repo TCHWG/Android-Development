@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.detail.DetailActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="16dp">
+
+            <!-- Image Preview -->
+            <ImageView
+                android:id="@+id/imagePreview"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:scaleType="fitCenter"
+                tools:src="@mipmap/ic_launcher_round"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:background="@drawable/bg_button_rounded"
+                android:layout_marginBottom="16dp"
+                android:importantForAccessibility="no" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:padding="10dp">
+                <!-- Button to Upload from Camera -->
+                <Button
+                    android:id="@+id/buttonCamera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="40dp"
+                    android:paddingEnd="40dp"
+                    style="@style/Widget.AppTheme.Button"
+                    android:text="@string/camera"/>
+
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="0dp"/>
+
+                <!-- Button to Upload from Gallery -->
+                <Button
+                    android:id="@+id/buttonGallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="40dp"
+                    android:paddingEnd="40dp"
+                    style="@style/Widget.AppTheme.Button"
+                    android:text="@string/gallery"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@android:color/darker_gray" />
+
+            <!-- Edit Text for Description -->
+            <com.kuroakevizago.dicodingstoryapp.view.customview.EditText
+                android:id="@+id/editTextDescription"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:hint="@string/enter_description"
+                android:inputType="textMultiLine"
+                android:layout_marginBottom="16dp"
+                android:gravity="top"
+                android:background="@color/md_theme_surfaceContainer"
+                android:padding="10dp" />
+
+            <!-- Button to Upload Data -->
+            <Button
+                android:id="@+id/buttonUpload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/upload"
+                style="@style/Widget.AppTheme.Button"/>
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressUpload"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+    </FrameLayout>
+
+
+</ScrollView>

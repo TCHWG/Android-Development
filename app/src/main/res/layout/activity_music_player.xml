@@ -1,19 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.music_player.MusicPlayerActivity"
-    android:padding="12dp"
     android:background="@color/md_theme_primary">
+
+    <TextView
+        android:id="@+id/countdownText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="50sp"
+        android:gravity="center"
+        android:elevation="1dp"
+        android:textColor="@color/md_theme_onPrimaryContainer"
+        android:background="@color/md_theme_transparent"
+        android:visibility="gone"
+        tools:text="3"
+        style="@style/TextAppearance.AppTheme.Headline" />
+
+    <FrameLayout
+        android:id="@+id/progressLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="1dp"
+        android:background="@color/md_theme_transparent"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="70dp"
+            android:transitionName="title"
+            android:text="@string/please_wait_for_a_moment"
+            android:textSize="30sp"
+            android:textColor="@color/md_theme_onBackground"
+            style="@style/TextAppearance.AppTheme.Headline"/>
+
+        <ProgressBar
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="20dp" />
+
+    </FrameLayout>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="WebViewLayout">
+        android:layout_height="match_parent"
+        android:padding="12dp">
 
         <ImageButton
             android:id="@+id/backButton"
@@ -25,7 +65,7 @@
             android:importantForAccessibility="no"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:tint="@color/md_theme_onBackground" />
+            app:tint="@color/md_theme_onPrimaryContainer" />
 
         <TextView
             android:id="@+id/titleText"
@@ -37,45 +77,37 @@
             tools:text="Twinkle Twinkle Little Star"
             app:drawableEndCompat="@drawable/ic_music_note_24px"
             android:drawablePadding="10dp"
-            app:drawableTint="@color/md_theme_onBackground"
+            android:textColor="@color/md_theme_onPrimaryContainer"
+            app:drawableTint="@color/md_theme_onPrimaryContainer"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/backButton"
             app:layout_constraintEnd_toEndOf="parent"/>
-
-        <TextView
-            android:id="@+id/countdownText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:gravity="center"
-            android:layout_marginEnd="30dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="visible"
-            tools:text="3"
-            style="@style/TextAppearance.AppTheme.Headline"/>
 
         <WebView
             android:id="@+id/musicWebView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintBottom_toTopOf="@id/recordLayout"
             app:layout_constraintTop_toBottomOf="@id/titleText" />
 
         <TextView
             android:id="@+id/warningText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="20dp"
             android:transitionName="title"
             style="@style/TextAppearance.AppTheme.Headline3"
             android:text="@string/recording_will_automatically_stop_when_the_notes_end"
+            android:textColor="@color/md_theme_onPrimaryContainer"
             app:drawableEndCompat="@drawable/ic_music_note_24px"
             android:drawablePadding="10dp"
-            app:drawableTint="@color/md_theme_onBackground"
-            app:layout_constraintTop_toBottomOf="@id/recordLayout"
+            app:drawableTint="@color/md_theme_onPrimaryContainer"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
         <LinearLayout
             android:id="@+id/recordLayout"
@@ -83,8 +115,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginTop="12dp"
-            app:layout_constraintTop_toBottomOf="@id/musicWebView">
+            android:layout_marginBottom="15dp"
+            app:layout_constraintBottom_toTopOf="@id/warningText">
 
             <ImageButton
                 android:id="@+id/restartButton"
@@ -94,7 +126,7 @@
                 android:background="@color/md_theme_primary"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_restart_alt_24px"
-                app:tint="@color/md_theme_onBackground"/>
+                app:tint="@color/md_theme_onPrimaryContainer"/>
 
             <ImageButton
                 android:id="@+id/playButton"
@@ -104,7 +136,7 @@
                 android:background="@color/md_theme_primary"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_play_circle_24px"
-                app:tint="@color/md_theme_error" />
+                app:tint="@color/md_theme_onPrimaryContainer" />
 
             <ImageButton
                 android:id="@+id/recordButton"
@@ -113,7 +145,7 @@
                 android:src="@drawable/ic_radio_button_checked_24px"
                 android:background="@color/md_theme_primary"
                 android:importantForAccessibility="no"
-                app:tint="@color/md_theme_onBackground"/>
+                app:tint="@color/md_theme_onPrimaryContainer"/>
 
             <LinearLayout
                 android:id="@+id/evaluateLayout"
@@ -130,14 +162,14 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="20dp"
                     android:gravity="center"
-                    android:textColor="@color/md_theme_onBackground"
+                    android:textColor="@color/md_theme_onPrimaryContainer"
                     tools:text="File.ogg | 00:38"
                     style="@style/TextAppearance.AppTheme.Body"/>
 
                 <Button
-                    android:id="@+id/checkButton"
+                    android:id="@+id/evaluateButton"
                     android:layout_width="@dimen/button_small_fixed_width"
-                    android:layout_height="35dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:text="@string/evaluate"
                     style="@style/Widget.AppTheme.SuccessButton"/>
@@ -147,6 +179,5 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-</androidx.core.widget.NestedScrollView>
+</FrameLayout>
 

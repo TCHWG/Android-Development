@@ -10,6 +10,33 @@
         android:id="@+id/search_bar"
         layout="@layout/search_bar"/>
 
+    <LinearLayout
+        android:id="@+id/searchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:elevation="5dp"
+        android:background="@color/md_theme_background"
+        android:orientation="vertical"
+        android:padding="@dimen/ScreenPadding"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/search_bar"
+        app:layout_constraintBottom_toTopOf="@id/nav_view">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/search_result"
+            style="@style/TextAppearance.AppTheme.Headline2"/>
+
+        <include
+            android:id="@+id/searchRecyclerViewLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            layout="@layout/vertical_recycler_view"/>
+
+    </LinearLayout>
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment_activity_main"
         android:name="androidx.navigation.fragment.NavHostFragment"

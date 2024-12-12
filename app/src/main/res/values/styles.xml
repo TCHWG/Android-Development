@@ -23,10 +23,17 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="TextAppearance.AppTheme.Headline4" parent="TextAppearance.MaterialComponents.Headline1" tools:keep="@style/TextAppearance.DicodingStoryApp.Headline2">
+        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="android:fontFamily">@font/lexend_black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
     <style name="TextAppearance.AppTheme.Body" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:textColor">?attr/colorOnBackground</item>
         <item name="android:fontFamily">@font/lexend_black</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="TextAppearance.AppTheme.Button" parent="TextAppearance.MaterialComponents.Button">
@@ -82,13 +89,21 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
-    <!-- Custom style for BottomNavigationView -->
-    <style name="Widget.AppTheme.BottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView.Colored" tools:keep="@style/Widget_Dicoding_BottomNavigation">
-        <item name="backgroundTint">@color/md_theme_surface</item>
-        <item name="itemIconTint">@color/md_theme_primary</item>
-        <item name="itemTextColor">@color/md_theme_primary</item>
-        <item name="itemRippleColor">@color/md_theme_onSurface</item>
+    <style name="Widget.AppTheme.BottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
+        <!-- Background color for the navigation bar -->
+        <item name="backgroundTint">@color/md_theme_primary</item>
+
+        <!-- Icon and text color for unselected state -->
+        <item name="itemIconTint">@drawable/bg_nav_menu_selector</item>
+        <item name="itemTextColor">@drawable/bg_nav_menu_selector</item>
+
+        <!-- Ripple color when an item is tapped -->
+        <item name="itemRippleColor">@color/md_theme_onPrimary</item>
+
+        <!-- Icon size -->
         <item name="itemIconSize">24dp</item>
+
+        <!-- Label visibility mode -->
         <item name="labelVisibilityMode">labeled</item>
     </style>
 

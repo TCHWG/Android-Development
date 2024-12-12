@@ -48,7 +48,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="wrap_content"
                     android:padding="14dp">
 
                     <TextView
@@ -62,46 +62,46 @@
                         android:text="@string/unnamed"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/nameEditButton"
+                        app:layout_constraintEnd_toEndOf="parent"
                         tools:text="Zaebi Agustia Hidayatullah"
                         android:textColor="@color/md_theme_onPrimaryContainer"
                         style="@style/TextAppearance.AppTheme.Headline2"/>
 
-                    <ImageButton
-                        android:id="@+id/nameEditButton"
-                        android:layout_width="@dimen/imageButtonSize"
-                        android:layout_height="0dp"
-                        android:src="@drawable/ic_edit_24px"
-                        android:background="@color/md_theme_primaryContainer"
-                        app:layout_constraintTop_toTopOf="@id/userNameText"
-                        app:layout_constraintBottom_toBottomOf="@id/userNameText"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:tint="@color/md_theme_onPrimaryContainer"
-                        android:importantForAccessibility="no" />
+<!--                    <ImageButton-->
+<!--                        android:id="@+id/nameEditButton"-->
+<!--                        android:layout_width="@dimen/imageButtonSize"-->
+<!--                        android:layout_height="0dp"-->
+<!--                        android:src="@drawable/ic_edit_24px"-->
+<!--                        android:background="@color/md_theme_primaryContainer"-->
+<!--                        app:layout_constraintTop_toTopOf="@id/userNameText"-->
+<!--                        app:layout_constraintBottom_toBottomOf="@id/userNameText"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:tint="@color/md_theme_onPrimaryContainer"-->
+<!--                        android:importantForAccessibility="no" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/evaluatedMusicsText"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textAlignment="textStart"-->
+<!--                        android:text="@string/unnamed"-->
+<!--                        android:paddingTop="3dp"-->
+<!--                        android:paddingBottom="4dp"-->
+<!--                        android:textColor="@color/md_theme_onPrimaryContainer"-->
+<!--                        android:drawablePadding="10dp"-->
+<!--                        app:drawableStartCompat="@drawable/ic_monitoring_24px"-->
+<!--                        app:drawableTint="@color/md_theme_onPrimaryContainer"-->
+<!--                        app:layout_constraintTop_toBottomOf="@id/userNameText"-->
+<!--                        app:layout_constraintStart_toStartOf="parent"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        tools:text="4 Musics Evaluated"-->
+<!--                        style="@style/TextAppearance.AppTheme.Body" />-->
 
                     <TextView
-                        android:id="@+id/evaluatedMusicsText"
+                        android:id="@+id/evaluationsHistoryText"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textAlignment="textStart"
-                        android:text="@string/unnamed"
-                        android:paddingTop="3dp"
-                        android:paddingBottom="4dp"
-                        android:textColor="@color/md_theme_onPrimaryContainer"
-                        android:drawablePadding="10dp"
-                        app:drawableStartCompat="@drawable/ic_monitoring_24px"
-                        app:drawableTint="@color/md_theme_onPrimaryContainer"
-                        app:layout_constraintTop_toBottomOf="@id/userNameText"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        tools:text="4 Musics Evaluated"
-                        style="@style/TextAppearance.AppTheme.Body" />
-
-                    <TextView
-                        android:id="@+id/playedMusicsText"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="textStart"
+                        android:gravity="center_vertical"
                         android:text="@string/unnamed"
                         android:paddingTop="3dp"
                         android:paddingBottom="4dp"
@@ -109,7 +109,7 @@
                         android:drawablePadding="10dp"
                         app:drawableStartCompat="@drawable/ic_history_24px"
                         app:drawableTint="@color/md_theme_onPrimaryContainer"
-                        app:layout_constraintTop_toBottomOf="@id/evaluatedMusicsText"
+                        app:layout_constraintTop_toBottomOf="@id/userNameText"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         tools:text="4 Musics Played"
@@ -154,37 +154,37 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            layout="@layout/horizontal_recycler_view" />
+            layout="@layout/vertical_recycler_view" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="10dp"
-            android:background="?attr/colorOutline" />
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="1dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:background="?attr/colorOutline" />-->
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:padding="5dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/previously_played"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                style="@style/TextAppearance.AppTheme.Headline2"/>
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:padding="5dp">-->
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/previously_played"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                style="@style/TextAppearance.AppTheme.Headline2"/>-->
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
-        <include
-            android:id="@+id/previouslyPlayedRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            layout="@layout/horizontal_recycler_view" />
+<!--        <include-->
+<!--            android:id="@+id/previouslyPlayedRecyclerView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            layout="@layout/horizontal_recycler_view" />-->
     </LinearLayout>
 
     </ScrollView>

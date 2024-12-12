@@ -5,229 +5,257 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.detail.DetailActivity">
-
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/ScreenPadding">
+        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageButton
-                android:id="@+id/returnButton"
-                android:layout_width="@dimen/imageButtonSize1"
-                android:layout_height="@dimen/imageButtonSize1"
-                android:background="@color/md_theme_background"
-                android:src="@drawable/ic_arrow_back_24px"
-                app:tint="@color/md_theme_primary"
-                android:importantForAccessibility="no"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/refreshButton"
-                android:layout_width="@dimen/imageButtonSize1"
-                android:layout_height="@dimen/imageButtonSize1"
-                android:background="@color/md_theme_background"
-                android:src="@drawable/ic_refresh_24px"
-                android:importantForAccessibility="no"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/md_theme_primary" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:id="@+id/titleText"
+        <ProgressBar
+            android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/md_theme_primary"
-            android:transitionName="title"
-            style="@style/TextAppearance.AppTheme.Headline"
-            tools:text="Twinkle Twinkle Little Star"
-            app:drawableEndCompat="@drawable/ic_music_note_24px"
-            android:drawablePadding="10dp"
-            app:drawableTint="@color/md_theme_onBackground" />
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="100dp"
+            android:visibility="gone"
+            android:elevation="2dp"
+            android:layout_gravity="center" />
 
-        <androidx.cardview.widget.CardView
+        <include
+            android:id="@+id/errorRetryLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/error_retry"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            app:cardBackgroundColor="@color/md_theme_primaryContainer"
-            app:cardCornerRadius="@dimen/card_corner">
+            android:orientation="vertical"
+            android:padding="@dimen/ScreenPadding">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="15dp"
-                android:paddingBottom="30dp"
-                android:paddingStart="15dp"
-                android:paddingEnd="15dp">
+                android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/authorLabelText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/author"
-                    android:textAlignment="textStart"
-                    android:textColor="@color/md_theme_onPrimaryContainer"
-                    app:layout_constraintTop_toTopOf="@id/authorText"
+                <ImageButton
+                    android:id="@+id/returnButton"
+                    android:layout_width="@dimen/imageButtonSize1"
+                    android:layout_height="@dimen/imageButtonSize1"
+                    android:background="@color/md_theme_background"
+                    android:src="@drawable/ic_arrow_back_24px"
+                    app:tint="@color/md_theme_primary"
+                    android:importantForAccessibility="no"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/guidelineVertical1"
-                    style="@style/TextAppearance.AppTheme.Headline3" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/difficultyLabelText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/difficulty"
-                    android:textAlignment="textStart"
-                    android:textColor="@color/md_theme_onPrimaryContainer"
-                    app:layout_constraintTop_toTopOf="@id/difficultyText"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/guidelineVertical1"
-                    style="@style/TextAppearance.AppTheme.Headline3" />
-
-                <TextView
-                    android:id="@+id/summaryLabelText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/summary"
-                    android:textAlignment="textStart"
-                    android:textColor="@color/md_theme_onPrimaryContainer"
-                    app:layout_constraintTop_toTopOf="@id/summaryText"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/guidelineVertical1"
-                    style="@style/TextAppearance.AppTheme.Headline3" />
-
-                <TextView
-                    android:id="@+id/colonText1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/colon"
-                    android:textAlignment="center"
-                    android:textColor="@color/md_theme_onPrimaryContainer"
-                    app:layout_constraintTop_toTopOf="@id/authorText"
-                    app:layout_constraintStart_toEndOf="@id/guidelineVertical1"
-                    app:layout_constraintEnd_toStartOf="@id/guidelineVertical2"
-                    style="@style/TextAppearance.AppTheme.Headline3" />
-
-                <TextView
-                    android:id="@+id/colonText2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/colon"
-                    android:textAlignment="center"
-                    android:textColor="@color/md_theme_onPrimaryContainer"
-                    app:layout_constraintTop_toTopOf="@id/difficultyText"
-                    app:layout_constraintStart_toEndOf="@id/guidelineVertical1"
-                    app:layout_constraintEnd_toStartOf="@id/guidelineVertical2"
-                    style="@style/TextAppearance.AppTheme.Headline3" />
-
-                <TextView
-                    android:id="@+id/colonText3"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/colon"
-                    android:textAlignment="center"
-                    android:textColor="@color/md_theme_onPrimaryContainer"
-                    app:layout_constraintTop_toTopOf="@id/summaryText"
-                    app:layout_constraintStart_toEndOf="@id/guidelineVertical1"
-                    app:layout_constraintEnd_toStartOf="@id/guidelineVertical2"
-                    style="@style/TextAppearance.AppTheme.Headline3" />
-
-                <TextView
-                    android:id="@+id/authorText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/author"
-                    android:textAlignment="textStart"
-                    android:textColor="@color/md_theme_onPrimaryContainer"
-                    android:transitionName="author"
+                <ImageButton
+                    android:id="@+id/refreshButton"
+                    android:layout_width="@dimen/imageButtonSize1"
+                    android:layout_height="@dimen/imageButtonSize1"
+                    android:background="@color/md_theme_background"
+                    android:src="@drawable/ic_refresh_24px"
+                    android:importantForAccessibility="no"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/guidelineVertical2"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    style="@style/TextAppearance.AppTheme.Headline3" />
-
-                <TextView
-                    android:id="@+id/difficultyText"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:textAlignment="center"
-                    android:textColor="@color/md_theme_onPrimaryContainer"
-                    android:background="@drawable/bg_rounded"
-                    android:backgroundTint="@color/md_theme_success"
-                    android:paddingTop="1dp"
-                    android:paddingBottom="2dp"
-                    android:transitionName="difficulty"
-                    app:layout_constraintTop_toBottomOf="@id/authorText"
-                    app:layout_constraintStart_toEndOf="@id/guidelineVertical2"
-                    style="@style/TextAppearance.AppTheme.Headline3"
-                    tools:text="Easy"/>
-
-                <TextView
-                    android:id="@+id/summaryText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:textAlignment="textStart"
-                    android:textColor="@color/md_theme_onPrimaryContainer"
-                    android:transitionName="description"
-                    app:layout_constraintTop_toBottomOf="@id/difficultyLabelText"
-                    app:layout_constraintStart_toEndOf="@id/guidelineVertical2"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    style="@style/TextAppearance.AppTheme.Headline3"
-                    tools:text="This is a testament of a summary the song called twinkle twinkle little stars"/>
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guidelineVertical1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintGuide_begin="100dp"
-                    android:orientation="vertical"/>
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guidelineVertical2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintGuide_begin="120dp"
-                    android:orientation="vertical"/>
+                    app:tint="@color/md_theme_primary" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-            
-        </androidx.cardview.widget.CardView>
 
-        <ImageButton
-            android:id="@+id/bookmarkButton"
-            android:layout_width="@dimen/imageButtonSize1"
-            android:layout_height="@dimen/imageButtonSize1"
-            android:layout_gravity="end"
-            android:background="@color/md_theme_background"
-            android:src="@drawable/ic_bookmark_24px"
-            android:importantForAccessibility="no"
-            android:layout_marginTop="10dp"
-            app:tint="@color/md_theme_primary" />
+            <LinearLayout
+                android:id="@+id/detailLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
 
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"/>
+                <TextView
+                    android:id="@+id/titleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/md_theme_primary"
+                    android:transitionName="title"
+                    style="@style/TextAppearance.AppTheme.Headline"
+                    tools:text="Twinkle Twinkle Little Star"
+                    app:drawableEndCompat="@drawable/ic_music_note_24px"
+                    android:drawablePadding="10dp"
+                    app:drawableTint="@color/md_theme_onBackground" />
 
-        <com.kuroakevizago.dicodingstoryapp.view.customview.EnabledButton
-            android:id="@+id/playButton"
-            android:layout_width="190dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="64dp"
-            android:layout_marginEnd="64dp"
-            android:textAlignment="center"
-            android:text="@string/start_playing"
-            android:layout_gravity="center_horizontal"
-            style="@style/Widget.AppTheme.SuccessButton" />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    app:cardBackgroundColor="@color/md_theme_primaryContainer"
+                    app:cardCornerRadius="@dimen/card_corner">
 
-    </LinearLayout>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="30dp"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="15dp">
+
+                        <TextView
+                            android:id="@+id/authorLabelText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/author"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/md_theme_onPrimaryContainer"
+                            app:layout_constraintTop_toTopOf="@id/authorText"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/guidelineVertical1"
+                            style="@style/TextAppearance.AppTheme.Headline3" />
+
+                        <TextView
+                            android:id="@+id/difficultyLabelText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/difficulty"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/md_theme_onPrimaryContainer"
+                            app:layout_constraintTop_toTopOf="@id/difficultyText"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/guidelineVertical1"
+                            style="@style/TextAppearance.AppTheme.Headline3" />
+
+                        <TextView
+                            android:id="@+id/summaryLabelText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/summary"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/md_theme_onPrimaryContainer"
+                            app:layout_constraintTop_toTopOf="@id/summaryText"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/guidelineVertical1"
+                            style="@style/TextAppearance.AppTheme.Headline3" />
+
+                        <TextView
+                            android:id="@+id/colonText1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/colon"
+                            android:textAlignment="center"
+                            android:textColor="@color/md_theme_onPrimaryContainer"
+                            app:layout_constraintTop_toTopOf="@id/authorText"
+                            app:layout_constraintStart_toEndOf="@id/guidelineVertical1"
+                            app:layout_constraintEnd_toStartOf="@id/guidelineVertical2"
+                            style="@style/TextAppearance.AppTheme.Headline3" />
+
+                        <TextView
+                            android:id="@+id/colonText2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/colon"
+                            android:textAlignment="center"
+                            android:textColor="@color/md_theme_onPrimaryContainer"
+                            app:layout_constraintTop_toTopOf="@id/difficultyText"
+                            app:layout_constraintStart_toEndOf="@id/guidelineVertical1"
+                            app:layout_constraintEnd_toStartOf="@id/guidelineVertical2"
+                            style="@style/TextAppearance.AppTheme.Headline3" />
+
+                        <TextView
+                            android:id="@+id/colonText3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/colon"
+                            android:textAlignment="center"
+                            android:textColor="@color/md_theme_onPrimaryContainer"
+                            app:layout_constraintTop_toTopOf="@id/summaryText"
+                            app:layout_constraintStart_toEndOf="@id/guidelineVertical1"
+                            app:layout_constraintEnd_toStartOf="@id/guidelineVertical2"
+                            style="@style/TextAppearance.AppTheme.Headline3" />
+
+                        <TextView
+                            android:id="@+id/authorText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/author"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/md_theme_onPrimaryContainer"
+                            android:transitionName="author"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/guidelineVertical2"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            style="@style/TextAppearance.AppTheme.Headline3" />
+
+                        <TextView
+                            android:id="@+id/difficultyText"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:textAlignment="center"
+                            android:textColor="@color/md_theme_onPrimaryContainer"
+                            android:background="@drawable/bg_rounded"
+                            android:backgroundTint="@color/md_theme_success"
+                            android:paddingTop="1dp"
+                            android:paddingBottom="2dp"
+                            android:transitionName="difficulty"
+                            app:layout_constraintTop_toBottomOf="@id/authorText"
+                            app:layout_constraintStart_toEndOf="@id/guidelineVertical2"
+                            style="@style/TextAppearance.AppTheme.Headline3"
+                            tools:text="Easy"/>
+
+                        <TextView
+                            android:id="@+id/summaryText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/md_theme_onPrimaryContainer"
+                            android:transitionName="description"
+                            app:layout_constraintTop_toBottomOf="@id/difficultyLabelText"
+                            app:layout_constraintStart_toEndOf="@id/guidelineVertical2"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            style="@style/TextAppearance.AppTheme.Headline3"
+                            tools:text="This is a testament of a summary the song called twinkle twinkle little stars"/>
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/guidelineVertical1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintGuide_begin="100dp"
+                            android:orientation="vertical"/>
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/guidelineVertical2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintGuide_begin="120dp"
+                            android:orientation="vertical"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <ImageButton
+                    android:id="@+id/bookmarkButton"
+                    android:layout_width="@dimen/imageButtonSize1"
+                    android:layout_height="@dimen/imageButtonSize1"
+                    android:layout_gravity="end"
+                    android:background="@color/md_theme_background"
+                    android:src="@drawable/ic_bookmark_24px"
+                    android:importantForAccessibility="no"
+                    android:layout_marginTop="10dp"
+                    app:tint="@color/md_theme_primary" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"/>
+
+                <com.kuroakevizago.dicodingstoryapp.view.customview.EnabledButton
+                    android:id="@+id/playButton"
+                    android:layout_width="190dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="64dp"
+                    android:layout_marginEnd="64dp"
+                    android:textAlignment="center"
+                    android:text="@string/start_playing"
+                    android:layout_gravity="center_horizontal"
+                    style="@style/Widget.AppTheme.SuccessButton" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
 
 </androidx.core.widget.NestedScrollView>

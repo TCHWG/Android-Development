@@ -13,7 +13,7 @@
 
     <item
         android:id="@+id/navigation_bookmark"
-        android:icon="@drawable/ic_bookmark_24px"
+        android:icon="@drawable/ic_bookmark_filled_24px"
         android:title="@string/title_bookmark" />
 
     <item

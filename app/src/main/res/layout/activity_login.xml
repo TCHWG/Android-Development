@@ -164,7 +164,7 @@
 
     <LinearLayout
         android:id="@+id/loginButtonLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -177,8 +177,9 @@
 
         <com.kuroakevizago.dicodingstoryapp.view.customview.EnabledButton
             android:id="@+id/loginButton"
-            android:layout_width="175dp"
-            android:layout_height="35dp"
+            android:layout_width="190dp"
+            android:layout_height="40dp"
+            android:padding="10dp"
             android:text="@string/login"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -201,11 +202,11 @@
         <Button
             android:id="@+id/signupButton"
             android:layout_width="190dp"
-            android:layout_height="35dp"
+            android:layout_height="40dp"
             android:layout_marginStart="64dp"
             android:layout_marginEnd="64dp"
-            style="@style/Widget.AppTheme.Button"
             android:textAlignment="center"
+            style="@style/Widget.AppTheme.Button"
             android:text="@string/signup"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

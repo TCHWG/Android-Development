@@ -55,4 +55,7 @@
     <string name="reset_progress">Reset Progress</string>
     <string name="evaluate">Evaluate</string>
     <string name="recording_will_automatically_stop_when_the_notes_end">Recording will automatically stop, when the notes end</string>
+    <string name="search_result">Search Result</string>
+    <string name="please_wait_for_a_moment">Please wait for a moment</string>
+    <string name="previously_evaluated">Previously Evaluated</string>
 </resources>
