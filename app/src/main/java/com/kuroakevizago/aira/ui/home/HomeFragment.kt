@@ -204,8 +204,11 @@ class HomeFragment : Fragment() {
                 }
 
                 is ResultStatus.Success -> {
+                    val comparator = compareByDescending<UserMusics?> { it?.date }.thenByDescending { it?.time }
+                    val sortedUserMusics = result.data.data?.sortedWith(comparator) ?: emptyList()
+
                     showEvaluationsErrorRetry(false)
-                    adapter.userMusics = result.data.data?.take(5) ?: emptyList()
+                    adapter.userMusics = sortedUserMusics.take(5)
                     adapter.dataResultStatus = ResultStatus.Success(result.data.data)
                     checkEvaluationsRecyclerData(
                         adapter.userMusics,

@@ -62,8 +62,10 @@ class ProfileFragment : Fragment() {
     private fun setupDataAction() {
 
         binding.evaluationHistoryRecyclerView.errorRetry.btnRetryConnection.setOnClickListener {
-            showEvaluationsErrorRetry(false)
-            viewModel.userId?.let { it1 -> viewModel.fetchUserEvaluations(it1) }
+            viewModel.userId?.let { it1 ->
+                showEvaluationsErrorRetry(false)
+                viewModel.fetchUserEvaluations(it1)
+            }
         }
 
         binding.refreshButton.setOnClickListener {
@@ -100,9 +102,13 @@ class ProfileFragment : Fragment() {
                 }
 
                 is ResultStatus.Success -> {
+                    val comparator = compareByDescending<UserMusics?> { it?.date }.thenByDescending { it?.time }
+                    val sortedUserMusics = result.data.data?.sortedWith(comparator) ?: emptyList()
+
                     showEvaluationsErrorRetry(false)
-                    adapter.userMusics = result.data.data ?: emptyList()
-                    adapter.dataResultStatus = ResultStatus.Success(result.data.data)
+                    adapter.userMusics = sortedUserMusics
+                    adapter.dataResultStatus = ResultStatus.Success(sortedUserMusics)
+
                     checkRecyclerData(
                         adapter.userMusics,
                         historyRecyclerView,
