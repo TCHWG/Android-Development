@@ -73,14 +73,17 @@ class EvaluationActivity : AppCompatActivity() {
         homeIntent.addCategory(Intent.CATEGORY_HOME)
         homeIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(homeIntent)
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
     }
 
+    @Suppress("DEPRECATION")
     private fun setupAction() {
         binding.backButton.setOnClickListener {
             val homeIntent = Intent(this, MainActivity::class.java)
             homeIntent.addCategory(Intent.CATEGORY_HOME)
             homeIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(homeIntent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
     }
 

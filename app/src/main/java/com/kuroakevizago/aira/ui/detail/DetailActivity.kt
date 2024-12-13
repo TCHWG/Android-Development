@@ -79,6 +79,7 @@ class DetailActivity : AppCompatActivity() {
 
     }
 
+    @Suppress("DEPRECATION")
     private fun setupAction() {
         binding.playButton.addTouchScaleEffect()
         binding.playButton.setOnClickListener {
@@ -87,6 +88,7 @@ class DetailActivity : AppCompatActivity() {
                 val intent = Intent(this, MusicPlayerActivity::class.java)
                 intent.putExtra(MUSIC_TAG, viewModel.currentData)
                 startActivity(intent)
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
             } else {
                 // Show alert dialog if internet is not available
                 showNoInternetDialog()

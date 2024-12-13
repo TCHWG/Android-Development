@@ -242,6 +242,7 @@ class MusicPlayerActivity : AppCompatActivity() {
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun evaluateRecording() {
         val musicItem = viewModel.musicItem
         val userId = viewModel.userId
@@ -279,8 +280,8 @@ class MusicPlayerActivity : AppCompatActivity() {
                     val intent = Intent(this, EvaluationActivity::class.java)
                     intent.putExtra(MUSIC_TAG, musicItem)
                     intent.putExtra(EVALUATION_TAG, result.data.data)
-                    //intent.putExtra(MUSIC_FILE_TAG, viewModel.tempAudioFile)
                     startActivity(intent)
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                 }
             }
         }
