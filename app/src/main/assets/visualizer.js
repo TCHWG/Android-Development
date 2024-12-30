@@ -274,117 +274,113 @@ function initPlayerAndVisualizer(seq=noteSequence) {
   });
 }
 
-// Initialize the player and StaffSVGVisualizer
-function initPlayerAndVisualizerHighlight(seq = noteSequence, highlightIndices = "") {
-  return __awaiter(this, void 0, void 0, function () {
-      var tempo;
-      return __generator(this, function (_a) {
-          switch (_a.label) {
-              case 0:
-                const highlightIndicesString = highlightIndices.toString()
-                // Parse highlightIndices string into an array of numbers
-                const highlightIndicesArray = highlightIndicesString.split(",").map(Number);
 
-                // Add isHighlighted property for each note
-                seq.notes = seq.notes.map((note, index) => {
-                    return {
+
+
+
+/// Updated function to initialize player and highlight notes
+function initPlayerAndVisualizerHighlight(seq = noteSequence, highlightIndices = "") {
+    return __awaiter(this, void 0, void 0, function () {
+        let tempo;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    const highlightIndicesString = highlightIndices.toString();
+                    const highlightIndicesArray = highlightIndicesString.split(",").map(Number);
+
+                    // Add isHighlighted property for each note
+                    seq.notes = seq.notes.map((note, index) => ({
                         ...note,
                         isHighlighted: highlightIndicesArray.includes(index),
-                    };
-                });
+                    }));
 
-                noteSequence = seq;
-                calculateTotalDuration(seq);
+                    noteSequence = seq;
+                    calculateTotalDuration(seq);
 
-                // Separate notes by clef
-                const trebleNotes = seq.notes
-                    .map((note, index) => ({ ...note, originalIndex: index }))
-                    .filter(note => note.clef === "treble");
-                const bassNotes = seq.notes
-                    .map((note, index) => ({ ...note, originalIndex: index }))
-                    .filter(note => note.clef === "bass");
+                    // Separate notes by clef
+                    const trebleNotes = seq.notes
+                        .map((note, index) => ({ ...note, originalIndex: index }))
+                        .filter(note => note.clef === "treble");
+                    const bassNotes = seq.notes
+                        .map((note, index) => ({ ...note, originalIndex: index }))
+                        .filter(note => note.clef === "bass");
 
-                // Create clef-specific sequences
-                const trebleSequence = { ...seq, notes: trebleNotes };
-                const bassSequence = { ...seq, notes: bassNotes };
+                    // Create clef-specific sequences
+                    const trebleSequence = { ...seq, notes: trebleNotes };
+                    const bassSequence = { ...seq, notes: bassNotes };
 
-                visualizers = [
-                    new mm.StaffSVGVisualizer(trebleSequence, trebleStaff, {
-                        scrollType: mm.ScrollType.NOTE,
-                    }),
-                    new mm.StaffSVGVisualizer(bassSequence, bassStaff, {
-                        scrollType: mm.ScrollType.NOTE,
-                    }),
-                ];
-                currentSequence = seq;
-                tempo = seq.tempos[0].qpm;
+                    visualizers = [
+                        new mm.StaffSVGVisualizer(trebleSequence, trebleStaff, {
+                            scrollType: mm.ScrollType.NOTE,
+                        }),
+                        new mm.StaffSVGVisualizer(bassSequence, bassStaff, {
+                            scrollType: mm.ScrollType.NOTE,
+                        }),
+                    ];
+                    currentSequence = seq;
+                    tempo = seq.tempos[0].qpm;
 
-                // Set tempo
-                player.setTempo(tempo);
+                    // Set tempo
+                    player.setTempo(tempo);
 
-                // Extract highlight indices for treble and bass clefs
-                const trebleHighlightIndices = highlightIndicesArray.filter(index =>
-                  trebleNotes.some(note => note.originalIndex === index)
-                ).map(index => trebleNotes.findIndex(note => note.originalIndex === index));
+                    // Extract highlight indices for treble and bass clefs
+                    const trebleHighlightIndices = highlightIndicesArray.filter(index =>
+                        trebleNotes.some(note => note.originalIndex === index)
+                    ).map(index => trebleNotes.findIndex(note => note.originalIndex === index));
 
-                const bassHighlightIndices = highlightIndicesArray.filter(index =>
-                  bassNotes.some(note => note.originalIndex === index)
-                ).map(index => bassNotes.findIndex(note => note.originalIndex === index));
-                
-                return [
-                    4,
-                    player.loadSamples(seq).then(() => {
-                        // Highlight treble notes
-                        trebleNotes.forEach((note, index) => {
+                    const bassHighlightIndices = highlightIndicesArray.filter(index =>
+                        bassNotes.some(note => note.originalIndex === index)
+                    ).map(index => bassNotes.findIndex(note => note.originalIndex === index));
+
+                    // Log rendered data-ids for debugging
+                    function logRenderedDataIds(staff, clef) {
+                        const dataIds = Array.from(staff.querySelectorAll("g[data-id]"))
+                            .map(element => element.getAttribute("data-id"));
+                        console.log(`${clef} Staff Rendered Data IDs:`, dataIds);
+                    }
+
+                    function highlightNotes(notes, highlightIndices, staff, clef) {
+                        notes.forEach((note, index) => {
                             const dataId = `${index}-${note.pitch}`;
-                            const noteElement = trebleStaff.querySelector(
-                                `g[data-id="${dataId}"]`
-                            );
-                            if (trebleHighlightIndices.includes(index)) {
-                                console.log(`Treble Note ${index} is highlighted ${noteElement} with data id: ${dataId}`);
-                                if (noteElement) {
-                                    noteElement.style.fill = 'red';
-                                    noteElement.style.strokeWidth = '2px';
-                                }
+                            const noteElement = staff.querySelector(`g[data-id="${dataId}"]`);
+
+                            if (!noteElement) {
+                                console.warn(`${clef} Note element not found for data-id: ${dataId}`);
+                            } else if (highlightIndices.includes(index)) {
+                                console.log(`${clef} Note ${index} is highlighted with data-id: ${dataId}`);
+                                noteElement.style.fill = 'red';
+                                noteElement.style.strokeWidth = '2px';
                             } else {
-                                console.log(`Treble Note ${index} is not highlighted`);
-                                if (noteElement) {
-                                    noteElement.style.fill = 'black';
-                                    noteElement.style.strokeWidth = '1px';
-                                }
+                                console.log(`${clef} Note ${index} is not highlighted with data-id: ${dataId}`);
+                                noteElement.style.fill = 'black';
+                                noteElement.style.strokeWidth = '1px';
                             }
                         });
+                    }
 
-                        // Highlight bass notes
-                        bassNotes.forEach((note, index) => {
-                            const dataId = `${index}-${note.pitch}`;
-                            const noteElement = bassStaff.querySelector(
-                                `g[data-id="${dataId}"]`
-                            );
-                            if (bassHighlightIndices.includes(index)) {
-                                console.log(`Bass Note ${index} is highlighted`);
-                                if (noteElement) {
-                                    noteElement.style.fill = 'red';
-                                    noteElement.style.strokeWidth = '2px';
-                                }
-                            } else {
-                                console.log(`Bass Note ${index} is not highlighted`);
-                                if (noteElement) {
-                                    noteElement.style.fill = 'black';
-                                    noteElement.style.strokeWidth = '1px';
-                                }
-                            }
-                        });
+                    return [
+                        4,
+                        player.loadSamples(seq).then(() => {
+                            // Wait for rendering to complete
+                            setTimeout(() => {
+                                // Log rendered data-ids for debugging
+                                logRenderedDataIds(trebleStaff, "Treble");
+                                logRenderedDataIds(bassStaff, "Bass");
 
-                    }),
-                  ];
-              case 1:
-                  _a.sent();
-                  return [2];
-          }
-      });
-  });
+                                // Highlight notes
+                                highlightNotes(trebleNotes, trebleHighlightIndices, trebleStaff, "Treble");
+                                highlightNotes(bassNotes, bassHighlightIndices, bassStaff, "Bass");
+                            }, 100); // Adjust the delay as needed for rendering
+                        }),
+                    ];
+                case 1:
+                    _a.sent();
+                    return [2];
+            }
+        });
+    });
 }
+
 
 
 
