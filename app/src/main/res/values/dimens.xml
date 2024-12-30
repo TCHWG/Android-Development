@@ -9,4 +9,5 @@
     <dimen name="imageButtonSize1">40dp</dimen>
     <dimen name="imageButtonSize2">60dp</dimen>
     <dimen name="ScreenPadding">18dp</dimen>
+    <dimen name="card_view_height_size">175dp</dimen>
 </resources>

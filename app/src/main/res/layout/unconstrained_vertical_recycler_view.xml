@@ -26,7 +26,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:orientation="vertical"/>
 
-
     <TextView
         android:id="@+id/textNoDataObtain"
         android:layout_width="match_parent"

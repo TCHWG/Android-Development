@@ -44,10 +44,10 @@ class BookmarkFragment : Fragment() {
 
         binding.bookmarkRecyclerView.errorRetry.btnRetryConnection.setOnClickListener {
             showFeaturedMusicsErrorRetry(false)
-            viewModel.fetchFeaturedMusics()
+            setupBookmarkedMusics()
         }
 
-        binding.refreshButton.setOnClickListener {
+        binding.bookmarkRecyclerView.swipeRefreshLayout.setOnRefreshListener {
             setupBookmarkedMusics()
         }
     }
@@ -99,6 +99,7 @@ class BookmarkFragment : Fragment() {
             adapter.dataResultStatus = ResultStatus.Success(adapter.musicList)
             featuredRecyclerView.adapter = adapter
             adapter.notifyDataSetChanged()
+            binding.bookmarkRecyclerView.swipeRefreshLayout.isRefreshing = false
         }
     }
 

@@ -77,14 +77,24 @@ class HomeFragment : Fragment() {
 
         binding.evaluationHistoryRecyclerView.errorRetry.btnRetryConnection.setOnClickListener {
             showFeaturedMusicsErrorRetry(false)
-            viewModel.fetchFeaturedMusics()
+            viewModel.userId?.let { viewModel.fetchUserEvaluations(it) }
         }
 
-        binding.refreshButton.setOnClickListener {
+        binding.homeRefreshLayout.setOnRefreshListener {
             viewModel.fetchFeaturedMusics()
-            viewModel.fetchPreviouslyPlayedMusics()
+            viewModel.userId?.let { viewModel.fetchUserEvaluations(it) }
             viewModel.fetchUserProfile()
         }
+
+//
+//        binding.featuredMusicsRecyclerView.swipeRefreshLayout.setOnRefreshListener {
+//
+//        }
+//
+//        binding.evaluationHistoryRecyclerView.swipeRefreshLayout.setOnRefreshListener {
+//
+//            viewModel.fetchUserProfile()
+//        }
     }
 
     private fun setupDataObserve() {
@@ -144,6 +154,7 @@ class HomeFragment : Fragment() {
                     showFeaturedMusicsErrorRetry(false)
                     adapter.musicList = result.data.data?.take(5) ?: emptyList()
                     adapter.dataResultStatus = ResultStatus.Success(result.data.data)
+                    binding.homeRefreshLayout.isRefreshing = false
                     checkMusicRecyclerData(
                         adapter.musicList,
                         featuredRecyclerView,
@@ -154,6 +165,7 @@ class HomeFragment : Fragment() {
                 is ResultStatus.Error -> {
                     adapter.dataResultStatus = result
                     showFeaturedMusicsErrorRetry(true)
+                    binding.homeRefreshLayout.isRefreshing = false
                     binding.featuredMusicsRecyclerView.errorRetry.errorDescription.text = result.error
                 }
             }
@@ -210,6 +222,8 @@ class HomeFragment : Fragment() {
                     showEvaluationsErrorRetry(false)
                     adapter.userMusics = sortedUserMusics.take(5)
                     adapter.dataResultStatus = ResultStatus.Success(result.data.data)
+
+                    binding.homeRefreshLayout.isRefreshing = false
                     checkEvaluationsRecyclerData(
                         adapter.userMusics,
                         historyRecyclerView,
@@ -220,6 +234,7 @@ class HomeFragment : Fragment() {
                 is ResultStatus.Error -> {
                     adapter.dataResultStatus = result
                     showEvaluationsErrorRetry(true)
+                    binding.homeRefreshLayout.isRefreshing = false
                     binding.evaluationHistoryRecyclerView.errorRetry.errorDescription.text = result.error
                 }
             }

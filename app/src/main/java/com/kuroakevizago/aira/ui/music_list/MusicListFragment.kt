@@ -19,11 +19,9 @@ import com.kuroakevizago.aira.ui.ViewModelFactory
 import com.kuroakevizago.aira.ui.main.MainViewModel
 
 class MusicListFragment : Fragment() {
-
-
-private val viewModel by viewModels<MainViewModel> {
-    ViewModelFactory.getInstance(requireContext())
-}
+    private val viewModel by viewModels<MainViewModel> {
+        ViewModelFactory.getInstance(requireContext())
+    }
     private lateinit var binding: FragmentMusicsListBinding
 
     override fun onCreateView(
@@ -51,7 +49,7 @@ private val viewModel by viewModels<MainViewModel> {
             viewModel.fetchFeaturedMusics()
         }
 
-        binding.refreshButton.setOnClickListener {
+        binding.allMusicsRecyclerView.swipeRefreshLayout.setOnRefreshListener {
             viewModel.fetchFeaturedMusics()
         }
     }
@@ -89,12 +87,14 @@ private val viewModel by viewModels<MainViewModel> {
                         featuredRecyclerView,
                         binding.allMusicsRecyclerView.textNoDataObtain
                     )
+                    binding.allMusicsRecyclerView.swipeRefreshLayout.isRefreshing = false
                 }
 
                 is ResultStatus.Error -> {
                     adapter.dataResultStatus = result
                     showFeaturedMusicsErrorRetry(true)
                     binding.allMusicsRecyclerView.errorRetry.errorDescription.text = result.error
+                    binding.allMusicsRecyclerView.swipeRefreshLayout.isRefreshing = false
                 }
             }
             featuredRecyclerView.adapter = adapter

@@ -68,7 +68,7 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        binding.refreshButton.setOnClickListener {
+        binding.evaluationHistoryRecyclerView.swipeRefreshLayout.setOnRefreshListener {
             viewModel.userId?.let { it1 -> viewModel.fetchUserEvaluations(it1) }
             viewModel.fetchUserProfile()
         }
@@ -115,12 +115,14 @@ class ProfileFragment : Fragment() {
                         binding.evaluationHistoryRecyclerView.textNoDataObtain
                     )
 
+                    binding.evaluationHistoryRecyclerView.swipeRefreshLayout.isRefreshing = false
                     binding.evaluationsHistoryText.text = "${adapter.userMusics.count()} evaluated musics"
                 }
 
                 is ResultStatus.Error -> {
                     adapter.dataResultStatus = result
                     showEvaluationsErrorRetry(true)
+                    binding.evaluationHistoryRecyclerView.swipeRefreshLayout.isRefreshing = false
                     binding.evaluationHistoryRecyclerView.errorRetry.errorDescription.text = result.error
                 }
             }
@@ -157,14 +159,14 @@ class ProfileFragment : Fragment() {
         viewModel.userData.observe(viewLifecycleOwner) {result->
             when (result) {
                 is ResultStatus.Error -> {
-
+                    binding.evaluationHistoryRecyclerView.swipeRefreshLayout.isRefreshing = false
                 }
                 is ResultStatus.Loading -> {
 
                 }
                 is ResultStatus.Success -> {
                     val resultData = result.data.data
-
+                    binding.evaluationHistoryRecyclerView.swipeRefreshLayout.isRefreshing = false
                     if (resultData != null) {
                         binding.userNameText.text = resultData.name
 

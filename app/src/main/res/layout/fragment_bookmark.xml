@@ -32,18 +32,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 style="@style/TextAppearance.AppTheme.Headline2"/>
-
-            <ImageButton
-                android:id="@+id/refreshButton"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:src="@drawable/ic_refresh_24px"
-                android:background="#00000000"
-                android:importantForAccessibility="no"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:tint="@color/md_theme_primary" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include
@@ -51,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            layout="@layout/horizontal_recycler_view" />
+            layout="@layout/vertical_recycler_view" />
     </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

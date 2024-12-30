@@ -15,7 +15,7 @@
     tools:keep="@layout/card_view_small">
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="175dp"
+        android:layout_height="@dimen/card_view_height_size"
         android:background="@color/md_theme_primary"
         android:padding="2.5dp">
 
